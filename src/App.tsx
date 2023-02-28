@@ -1,7 +1,7 @@
-import React from 'react';
-import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
-import MainPage from './components/main/MainPage';
-import Header from './header/Header';
+import React from "react";
+import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import MainPage from "./components/main/MainPage";
+import Header from "./header/Header";
 
 const Layout = () => {
   return (
