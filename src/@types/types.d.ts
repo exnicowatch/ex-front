@@ -1,3 +1,3 @@
 interface ExAPI {
-  version: string
+  version: string;
 }

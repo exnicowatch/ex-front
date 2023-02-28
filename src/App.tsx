@@ -8,7 +8,7 @@ const NotFoundError = () => {
     <>
       <h1>ページが存在しません</h1>
     </>
-  )
+  );
 };
 
 const App = () => {
@@ -17,7 +17,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<MainPage />} />
-          <Route path="/*" element={<NotFoundError />}/>
+          <Route path="/*" element={<NotFoundError />} />
         </Route>
       </Routes>
     </BrowserRouter>
