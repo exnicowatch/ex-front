@@ -1,4 +1,5 @@
-import React from "react";
+import { createTheme, CssBaseline, PaletteMode, ThemeProvider, useMediaQuery } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./header/Header";
 
@@ -12,8 +13,25 @@ const ExtensionError = () => {
 }
 
 const Layout = () => {
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const [themeMode, setThemeMode] = useState<PaletteMode>(
+    prefersDarkMode ? "dark" : "light"
+  );
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode: themeMode,
+        },
+      }),
+    [themeMode]
+  );
+  useEffect(() => {
+    setThemeMode(prefersDarkMode ? "dark" : "light");
+  }, [prefersDarkMode]);
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Header />
       <main>
         {window.ex === undefined ? (
@@ -22,7 +40,7 @@ const Layout = () => {
           <Outlet />
         )}
       </main>
-    </>
+    </ThemeProvider>
   );
 };
 
