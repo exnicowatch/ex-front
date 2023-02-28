@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
+import MainPage from './components/main/MainPage';
 import Header from './header/Header';
 
 const Layout = () => {
@@ -13,7 +14,7 @@ const Layout = () => {
   );
 };
 
-const App = (): JSX.Element => {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -23,6 +24,6 @@ const App = (): JSX.Element => {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
