@@ -2,12 +2,14 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainPage from "./pages/main/MainPage";
 import Layout from "./Layout";
+import { Box } from "@mui/material";
 
 const NotFoundError = () => {
   return (
-    <>
-      <h1>ページが存在しません</h1>
-    </>
+    <Box sx={{marginLeft: 3}}>
+      <h1>Not Found</h1>
+      <h3>ページが見つかりません</h3>
+    </Box>
   );
 };
 
