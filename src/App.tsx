@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainPage from "./pages/main/MainPage";
 import Layout from "./Layout";
 import { Box } from "@mui/material";
+import HelpPage from "./pages/help/HelpPage";
 
 const NotFoundError = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<MainPage />} />
+          <Route path="/help" element={<HelpPage />} />
           <Route path="/*" element={<NotFoundError />} />
         </Route>
       </Routes>
