@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import MainPage from "./components/main/MainPage";
+import MainPage from "./pages/main/MainPage";
 import Layout from "./Layout";
 
 const NotFoundError = () => {
