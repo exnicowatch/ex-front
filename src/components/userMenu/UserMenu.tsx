@@ -1,7 +1,10 @@
 import { Avatar, Box, Divider, Popover } from "@mui/material";
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NicoContext } from "../../provider/NicoProvider";
+import PersonIcon from '@mui/icons-material/Person';
+import StarIcon from '@mui/icons-material/Star';
+import HelpIcon from '@mui/icons-material/Help';
 import Styled from "./UserMenu.module.scss";
 
 interface UserMenuProps{
@@ -44,8 +47,28 @@ const UserMenu = (props: UserMenuProps) => {
         </Box>
       </Box>
       <Divider />
-      <Box>
+      <Box className={Styled.userMenuMain}>
         <ul>
+          <li onClick={() => navigateUserMenu("/user/me")}>
+            <Link to="/user/me">
+              <PersonIcon />
+              ユーザーページ
+            </Link>
+          </li>
+          <Divider />
+          <li onClick={() => navigateUserMenu("/ranking")}>
+            <Link to="/ranking">
+              <StarIcon />
+              ランキング
+            </Link>
+          </li>
+          <Divider />
+          <li onClick={() => navigateUserMenu("/help")}>
+            <Link to="/help">
+              <HelpIcon />
+              ヘルプ
+            </Link>
+          </li>
         </ul>
       </Box>
     </Popover>
