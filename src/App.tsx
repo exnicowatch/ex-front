@@ -4,6 +4,7 @@ import MainPage from "./pages/main/MainPage";
 import Layout from "./Layout";
 import { Box } from "@mui/material";
 import HelpPage from "./pages/help/HelpPage";
+import WatchPage from "./pages/watch/WatchPage";
 
 const NotFoundError = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<MainPage />} />
           <Route path="/help" element={<HelpPage />} />
+          <Route path="/watch/:watchId" element={<WatchPage />} />
           <Route path="/*" element={<NotFoundError />} />
         </Route>
       </Routes>
