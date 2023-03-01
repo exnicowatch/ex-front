@@ -19,7 +19,7 @@ const Header = () => {
     setUserMenuAnchorEl(null);
   }
   return (
-    <AppBar position="static" className={Styled.header}>
+    <AppBar position="fixed" className={Styled.header}>
       <Container className={Styled.headerCnt}>
         <Toolbar disableGutters className={Styled.headerBar}>
           <IconButton>
