@@ -8,6 +8,7 @@ interface NicoProviderProps {
 
 export interface NicoContextProps {
   isLogin: boolean;
+  loginUser: NvAPIOwnUser | null;
   loaded: boolean;
   extension: Extension;
 }
@@ -15,6 +16,7 @@ export interface NicoContextProps {
 export const NicoContext = createContext<NicoContextProps>({
   isLogin: false,
   loaded: false,
+  loginUser: null,
   extension: new Extension(),
 });
 

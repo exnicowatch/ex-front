@@ -21,16 +21,19 @@ const Layout = () => {
   const [nicoContext, setNicoContext] = useState<NicoContextProps>({
     isLogin: false,
     loaded: false,
+    loginUser: null,
     extension: new Extension(),
   });
   useEffect(() => {
     (async () => {
       try {
         await nicoContext.extension.initialize();
+        const [user, isLogin] = await nicoContext.extension.getOwnUser();
+        setNicoContext({...nicoContext, isLogin: isLogin, loaded: true, loginUser: user});
       } catch (error) {
         console.error(error);
+        setNicoContext({...nicoContext, loaded: true});
       }
-      setNicoContext({...nicoContext, loaded: true});
     })();
   }, []);
   useEffect(() => {
