@@ -1,3 +1,0 @@
-interface ExAPI {
-  version: string;
-}

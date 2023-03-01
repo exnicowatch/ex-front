@@ -2,6 +2,8 @@ import { createTheme, CssBaseline, PaletteMode, ThemeProvider, useMediaQuery } f
 import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./header/Header";
+import Extension from "./libs/extension";
+import NicoProvider, { NicoContextProps } from "./provider/NicoProvider";
 
 const ExtensionError = () => {
   return (
@@ -24,15 +26,42 @@ const Layout = () => {
       }),
     [themeMode]
   );
+  const [nicoContext, setNicoContext] = useState<NicoContextProps>({
+    isLogin: false,
+    loaded: false,
+    extension: new Extension(),
+  });
+  useEffect(() => {
+    (async () => {
+      try {
+        await nicoContext.extension.initialize();
+      } catch (error) {
+        console.error(error);
+      }
+      setNicoContext({...nicoContext, loaded: true});
+    })();
+  }, []);
   useEffect(() => {
     setThemeMode(prefersDarkMode ? "dark" : "light");
   }, [prefersDarkMode]);
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Header />
-      <main>{window.ex === undefined ? <ExtensionError /> : <Outlet />}</main>
-    </ThemeProvider>
+    <NicoProvider value={nicoContext}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Header />
+        <main>
+          {nicoContext.loaded && (
+            <>
+              {nicoContext.extension.isInstalled ? (
+                <Outlet />
+              ) : (
+                <ExtensionError />
+              )}
+            </>
+          )}
+        </main>
+      </ThemeProvider>
+    </NicoProvider>
   );
 };
 

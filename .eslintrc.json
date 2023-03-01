@@ -19,5 +19,8 @@
     "sourceType": "module"
   },
   "plugins": ["react", "@typescript-eslint"],
-  "rules": {}
+  "rules": {
+    "@typescript-eslint/no-inferrable-types": 0,
+    "react-hooks/exhaustive-deps": 0
+  }
 }
