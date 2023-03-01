@@ -7,7 +7,7 @@ export default class Extension{
     return this.isInstalled;
   }
 
-  async sendMessage<T>(message: unknown): Promise<T>{
+  private async sendMessage<T>(message: unknown): Promise<T>{
     return new Promise((resolve, rejects) => {
       if (chrome.runtime && this.isInstalled){
         chrome.runtime.sendMessage(
@@ -23,5 +23,29 @@ export default class Extension{
         rejects("NOT_INSTALLED");
       }
     });
+  }
+
+  async getUser(id: number): Promise<[NvAPIUser | null, NvAPIrelationships | null]>{
+    const user = await this.sendMessage<NvAPIResponse<NvAPIUserResponse>>({type: "fetchApi", payload: {
+      url: `https://nvapi.nicovideo.jp/v1/users/${id}`,
+      method: "GET"
+    }});
+    if(user.meta.status === 200 && user.data){
+      return [user.data.user, user.data.relationships];
+    }else{
+      return [null, null];
+    }
+  }
+
+  async getOwnUser(): Promise<[NvAPIOwnUser | null, boolean]>{
+    const user = await this.sendMessage<NvAPIResponse<NvAPIOwnUserResponse>>({type: "fetchApi", payload: {
+      url: `https://nvapi.nicovideo.jp/v1/users/me`,
+      method: "GET"
+    }});
+    if(user.meta.status === 200 && user.data){
+      return [user.data.user, true];
+    }else{
+      return [null, false];
+    }
   }
 }
