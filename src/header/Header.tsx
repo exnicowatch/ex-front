@@ -38,7 +38,7 @@ const Header = () => {
           <button className={Styled.iconBtn} onClick={handleUserMenuClick}>
             <Avatar src={nicoContextValue.loginUser?.icons.large} alt="UserIcon" />
           </button>
-          <UserMenu anchorEl={userMenuAnchorEl} isOpen={openUserMenu} onClose={handleUserMenuClose} />
+          <UserMenu anchorEl={userMenuAnchorEl} isOpen={openUserMenu} onClose={handleUserMenuClose} setIsOpen={setOpenUserMenu} />
         </Toolbar>
       </Container>
     </AppBar>

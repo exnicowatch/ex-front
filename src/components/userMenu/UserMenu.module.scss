@@ -1,0 +1,49 @@
+.userMenuHeader{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 70px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.userMenuIcon{
+  width: 70px !important;
+  height: 70px !important;
+  padding: 10px;
+  img{
+    border-radius: 50%;
+  }
+}
+
+.userMenuMeta{
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  justify-content: center;
+  gap: 5px;
+  padding-left: 5px;
+  p{
+    margin: 0;
+  }
+  p.nickname{
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    font-weight: bold;
+  }
+}
+
+.userMenuMetaData{
+  display: flex;
+  flex-direction: row;
+  font-size: 12px;
+  gap: 8px;
+}
+
+.premium{
+  color: gold;
+}

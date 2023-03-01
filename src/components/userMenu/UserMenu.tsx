@@ -1,14 +1,23 @@
-import { Popover } from "@mui/material";
-import React from "react";
+import { Avatar, Box, Divider, Popover } from "@mui/material";
+import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { NicoContext } from "../../provider/NicoProvider";
 import Styled from "./UserMenu.module.scss";
 
 interface UserMenuProps{
   isOpen: boolean,
+  setIsOpen: (v: boolean) => void,
   onClose: () => void,
   anchorEl: HTMLButtonElement | null
 }
 
 const UserMenu = (props: UserMenuProps) => {
+  const nicoContextValue = useContext(NicoContext);
+  const navigate = useNavigate();
+  const navigateUserMenu = (path: string) => {
+    navigate(path);
+    props.setIsOpen(false);
+  };
   return (
     <Popover
       open={props.isOpen}
@@ -22,8 +31,23 @@ const UserMenu = (props: UserMenuProps) => {
         horizontal: 'right',
       }}
       onClose={props.onClose}
+      className={Styled.userMenu}
     >
-      The content of the Popover.
+      <Box className={Styled.userMenuHeader} onClick={() => navigateUserMenu("/user/me")}>
+        <Avatar className={Styled.userMenuIcon} src={nicoContextValue.loginUser?.icons.large} />
+        <Box className={Styled.userMenuMeta}>
+          <p className={Styled.nickname}>{nicoContextValue.loginUser?.nickname}</p>
+          <Box className={Styled.userMenuMetaData}>
+            <p>{nicoContextValue.loginUser?.id}{nicoContextValue.loginUser?.registeredVersion}</p>
+            <p className={`${nicoContextValue.loginUser?.isPremium && Styled.premium}`}>{nicoContextValue.loginUser?.isPremium ? "プレミアム会員" : "一般会員"}</p>
+          </Box>
+        </Box>
+      </Box>
+      <Divider />
+      <Box>
+        <ul>
+        </ul>
+      </Box>
     </Popover>
   )
 }
