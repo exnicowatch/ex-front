@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "ExNicoWatch",
+  "name": "A simple and extream Nicovideo Player",
   "icons": [
     {
       "src": "favicon.ico",
