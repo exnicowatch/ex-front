@@ -3,16 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "./header/Header";
 import Extension from "./libs/extension";
+import ExtensionError from "./pages/extension/ExtensionError";
 import NicoProvider, { NicoContextProps } from "./provider/NicoProvider";
-
-const ExtensionError = () => {
-  return (
-    <>
-      <h1>拡張機能が導入されていません</h1>
-      <p>使用するにはExNicoExtensionを導入する必要があります</p>
-    </>
-  );
-};
 
 const Layout = () => {
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
@@ -48,18 +40,20 @@ const Layout = () => {
     <NicoProvider value={nicoContext}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Header />
-        <main>
-          {nicoContext.loaded && (
-            <>
-              {nicoContext.extension.isInstalled ? (
-                <Outlet />
-              ) : (
-                <ExtensionError />
-              )}
-            </>
-          )}
-        </main>
+        {nicoContext.loaded && (
+          <>
+            {nicoContext.extension.isInstalled ? (
+              <>
+                <Header />
+                <main>
+                  <Outlet />
+                </main>
+              </>
+            ) : (
+              <ExtensionError />
+            )}
+          </>
+        )}
       </ThemeProvider>
     </NicoProvider>
   );
