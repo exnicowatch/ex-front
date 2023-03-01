@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Container, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Avatar, Button, Container, IconButton, Toolbar, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { NicoContext } from "../provider/NicoProvider";
@@ -35,10 +35,16 @@ const Header = () => {
             ExNicoWatch
           </Typography>
           <div style={{ flexGrow: 1 }}></div>
-          <button className={Styled.iconBtn} onClick={handleUserMenuClick}>
-            <Avatar src={nicoContextValue.loginUser?.icons.large} alt="UserIcon" />
-          </button>
-          <UserMenu anchorEl={userMenuAnchorEl} isOpen={openUserMenu} onClose={handleUserMenuClose} setIsOpen={setOpenUserMenu} />
+          {nicoContextValue.isLogin ? (
+            <>
+              <button className={Styled.iconBtn} onClick={handleUserMenuClick}>
+                <Avatar src={nicoContextValue.loginUser?.icons.large} alt="UserIcon" />
+              </button>
+              <UserMenu anchorEl={userMenuAnchorEl} isOpen={openUserMenu} onClose={handleUserMenuClose} setIsOpen={setOpenUserMenu} />
+            </>
+          ) : (
+            <Button variant="outlined" href="https://account.nicovideo.jp/login" target="_blank">ログイン</Button>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
