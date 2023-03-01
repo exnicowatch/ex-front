@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { NicoContext } from "../provider/NicoProvider";
 import DehazeIcon from '@mui/icons-material/Dehaze';
 import Styled from "./Header.module.scss";
-import UserMenu from "../components/userMenu/UserMenu";
+import UserMenu from "../components/UserMenu/UserMenu";
 
 const Header = () => {
   const nicoContextValue = useContext(NicoContext);

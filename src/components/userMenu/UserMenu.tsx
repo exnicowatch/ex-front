@@ -1,5 +1,6 @@
 import { Popover } from "@mui/material";
 import React from "react";
+import Styled from "./UserMenu.module.scss";
 
 interface UserMenuProps{
   isOpen: boolean,
