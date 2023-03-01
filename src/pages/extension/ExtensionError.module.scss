@@ -4,12 +4,14 @@
 }
 
 .title{
+  user-select: none;
   @media screen and (max-width: 675px){
     font-size: 15vw !important;
   }
 }
 
 .subTitle {
+  user-select: none;
   @media screen and (max-width: 675px){
     font-size: 4.5vw !important;
   }
