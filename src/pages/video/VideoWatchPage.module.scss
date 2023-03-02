@@ -1,0 +1,80 @@
+.playerSection{
+  width: 70%;
+}
+
+.playerContainer{
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+
+.player{
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute;
+  background: black;
+}
+
+.commentCanvas{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.playerSliderContainer {
+  position: relative;
+  width: 100%;
+  height: 5px;
+  background: #4d4d4d;
+  overflow: hidden;
+  user-select: none;
+}
+
+.playerSliderPlayed{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgb(0, 110, 255);
+}
+
+.playerSliderLoaded{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: #d4d4d4;
+}
+
+.controlerContainer{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  user-select: none;
+}
+
+.controlerLeft, .controlerRight, .controlerCenter{
+  width: 30%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.controlerLeft{
+  justify-content: flex-start;
+}
+
+.controlerRight{
+  justify-content: flex-end;
+}
+
+.controlerCenter{
+  justify-content: center;
+}
+
+.slash{
+  padding-left: 3px;
+  padding-right: 3px;
+}

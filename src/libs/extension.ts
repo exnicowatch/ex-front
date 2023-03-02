@@ -145,7 +145,7 @@ export default class Extension{
       },
       priority: media.movie.session.priority,
       protocol: {
-        name: protocol,
+        name: "http",
         parameters: {
           http_parameters: {
             parameters: protocolParameters()
@@ -186,5 +186,28 @@ export default class Extension{
       return sessionRes.data.session;
     }
     return null;
+  }
+
+  async getVideoComments(nvComment: WatchNvComment, when?: number, res_from?: number): Promise<NvThread[]>{
+    const commentReq: NvCommentAPIRequest = {
+      threadKey: nvComment.threadKey,
+      additionals: {
+        when: when,
+        res_from: res_from
+      },
+      params: nvComment.params
+    }
+    const comments = await this.sendMessage<NvCommentAPIResponse>({type: "fetchApi", payload: {
+      url: "https://nvcomment.nicovideo.jp/v1/threads",
+      method: "POST",
+      param: commentReq,
+      header: {
+        "Referer": "https://www.nicovideo.jp/"
+      }
+    }});
+    if(comments.meta.status === 200 && comments.data){
+      return comments.data.threads;
+    }
+    return [];
   }
 }

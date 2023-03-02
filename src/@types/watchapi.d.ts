@@ -144,12 +144,14 @@ interface WatchNvComment{
   threadKey: string
   server: string
   params: {
-    targets: {
-      id: string
-      fork: string
-    }[]
+    targets: WatchNvCommentTarget[]
     language: string
   }
+}
+
+interface WatchNvCommentTarget{
+  id: string
+  fork: string
 }
 
 interface WatchCommunity{
