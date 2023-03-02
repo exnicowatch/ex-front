@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Styled from "./HelpPage.module.scss";
 
 const HelpPage = () => {
+  useEffect(() => {
+    document.title = "Help | ExNicoWatch";
+  });
   return (
     <div className={Styled.helpPage}>
       <h1>ExNicoWatch</h1>
