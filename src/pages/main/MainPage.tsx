@@ -13,6 +13,9 @@ const MainPage = () => {
         <Link to="/watch/sm9">sm9</Link>
       </li>
       <li>
+        <Link to="/watch/sm500873">sm500873</Link>
+      </li>
+      <li>
         <Link to="/watch/sm37198633">sm37198633</Link>
       </li>
       <li>
