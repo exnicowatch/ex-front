@@ -42,7 +42,7 @@ const UserMenu = (props: UserMenuProps) => {
           <p className={Styled.nickname}>{nicoContextValue.loginUser?.nickname}</p>
           <Box className={Styled.userMenuMetaData}>
             <p>{nicoContextValue.loginUser?.id}{nicoContextValue.loginUser?.registeredVersion}</p>
-            <p className={`${nicoContextValue.loginUser?.isPremium && Styled.premium}`}>{nicoContextValue.loginUser?.isPremium ? "プレミアム会員" : "一般会員"}</p>
+            <p className={`${nicoContextValue.loginUser?.isPremium ? Styled.premium : ""}`}>{nicoContextValue.loginUser?.isPremium ? "プレミアム会員" : "一般会員"}</p>
           </Box>
         </Box>
       </Box>
