@@ -2,12 +2,14 @@ import { Box, IconButton, Typography } from "@mui/material";
 import NiconiComments from "@xpadev-net/niconicomments";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
+import screenfull from 'screenfull';
 import { OnProgressProps } from "react-player/base";
 import { NicoContext } from "../../provider/NicoProvider";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
 import SettingsIcon from '@mui/icons-material/Settings';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
 import CommentIcon from '@mui/icons-material/Comment';
 import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
@@ -60,6 +62,19 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   }
   const handlePlayerCommentVisible = (value: boolean) => {
     setPlayerStatus({...playerStatus, comment: value});
+  }
+  const handlePlayerFullscreen = () => {
+    if(screenfull.isEnabled){
+      if(!screenfull.isFullscreen){
+        const videoPlayerEl = document.getElementById("videoPlayer");
+        if(videoPlayerEl){
+          screenfull.request(videoPlayerEl);
+        }
+      }
+      else{
+        screenfull.exit()
+      }
+    }
   }
   const handleControllerSeek = (played: number) => {
     player.current?.seekTo(played);
@@ -143,71 +158,78 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   return (
     <div>
       <Box className={Styled.playerSection}>
-        <div className={Styled.playerContainer}>
-          <ReactPlayer
-            ref={player}
-            className={Styled.player}
-            url={playerStatus.url}
-            playing={playerStatus.playing}
-            pip={playerStatus.pip}
-            loop={playerStatus.loop}
-            volume={playerStatus.volume}
-            muted={playerStatus.muted}
-            playbackRate={playerStatus.playbackRate}
-            onProgress={handlePlayerProgress}
-            onPlay={() => handlePlayerPlay(true)}
-            onEnablePIP={() => handlePiP(true)}
-            onDisablePIP={() => handlePiP(false)}
-            onPause={() => handlePlayerPlay(false)}
-            onEnded={handlePlayerEnded}
-            onDuration={handlePlayerDuration}
-            onPlaybackRateChange={handlePlayerPlaybackRateChange}
-            progressInterval={1000 / 60}
-          />
-          <canvas hidden={!playerStatus.comment} className={Styled.commentCanvas} width={1920} height={1080} ref={canvas}></canvas>
-        </div>
-        <div>
-          <div
-            className={Styled.playerSliderContainer}
-            onMouseMove={handleControllerSeekMove}
-            onMouseUp={handleControllerSeekUp}
-            onMouseDown={handleControllerSeekDown}
-          >
-            <div style={{width: `${playerStatus.loaded * 100}%`}} className={Styled.playerSliderLoaded} />
-            <div style={{width: `${playerStatus.played * 100}%`}} className={Styled.playerSliderPlayed} />
+        <div id="videoPlayer">
+          <div className={Styled.playerContainer}>
+            <ReactPlayer
+              ref={player}
+              className={Styled.player}
+              url={playerStatus.url}
+              playing={playerStatus.playing}
+              pip={playerStatus.pip}
+              loop={playerStatus.loop}
+              volume={playerStatus.volume}
+              muted={playerStatus.muted}
+              playbackRate={playerStatus.playbackRate}
+              onProgress={handlePlayerProgress}
+              onPlay={() => handlePlayerPlay(true)}
+              onEnablePIP={() => handlePiP(true)}
+              onDisablePIP={() => handlePiP(false)}
+              onPause={() => handlePlayerPlay(false)}
+              onEnded={handlePlayerEnded}
+              onDuration={handlePlayerDuration}
+              onPlaybackRateChange={handlePlayerPlaybackRateChange}
+              progressInterval={1000 / 60}
+            />
+            <canvas hidden={!playerStatus.comment} className={Styled.commentCanvas} width={1920} height={1080} ref={canvas}></canvas>
           </div>
-          <div className={Styled.controlerContainer}>
-            <div className={Styled.controlerLeft}>
-              <IconButton onClick={() => handlePlayerPlay(!playerStatus.playing)} title={playerStatus.playing ? "停止" : "再生"}>
-                {playerStatus.playing ? (
-                  <PauseIcon />
-                ) : (
-                  <PlayArrowIcon />
-                )}
-              </IconButton>
+          <div>
+            <div
+              className={Styled.playerSliderContainer}
+              onMouseMove={handleControllerSeekMove}
+              onMouseUp={handleControllerSeekUp}
+              onMouseDown={handleControllerSeekDown}
+            >
+              <div style={{width: `${playerStatus.loaded * 100}%`}} className={Styled.playerSliderLoaded} />
+              <div style={{width: `${playerStatus.played * 100}%`}} className={Styled.playerSliderPlayed} />
             </div>
-            <div className={Styled.controlerCenter}>
-              {playedTimeStr}
-              <span className={Styled.slash}>/</span>
-              {durationTimeStr}
-            </div>
-            <div className={Styled.controlerRight}>
-              <IconButton onClick={() => handlePlayerCommentVisible(!playerStatus.comment)} title={playerStatus.comment ? "コメントを表示しない" : "コメントを表示する"}>
-                {playerStatus.comment ? (
-                  <CommentIcon />
-                ) : (
-                  <CommentsDisabledIcon />
-                )}
-              </IconButton>
-              <IconButton onClick={() => handlePiP(true)}>
-                <PictureInPictureAltIcon />
-              </IconButton>
-              <IconButton>
-                <OpenInFullIcon />
-              </IconButton>
-              <IconButton>
-                <SettingsIcon />
-              </IconButton>
+            <div className={Styled.controlerContainer}>
+              <div className={Styled.controlerLeft}>
+                <IconButton onClick={() => handlePlayerPlay(!playerStatus.playing)} title={playerStatus.playing ? "停止" : "再生"}>
+                  {playerStatus.playing ? (
+                    <PauseIcon />
+                  ) : (
+                    <PlayArrowIcon />
+                  )}
+                </IconButton>
+              </div>
+              <div className={Styled.controlerCenter}>
+                {playedTimeStr}
+                <span className={Styled.slash}>/</span>
+                {durationTimeStr}
+              </div>
+              <div className={Styled.controlerRight}>
+                <IconButton onClick={() => handlePlayerCommentVisible(!playerStatus.comment)} title={playerStatus.comment ? "コメントを消す" : "コメントを表示"}>
+                  {playerStatus.comment ? (
+                    <CommentIcon />
+                  ) : (
+                    <CommentsDisabledIcon />
+                  )}
+                </IconButton>
+                <IconButton onClick={() => handlePiP(true)} title="ピクチャーインピクチャー">
+                  <PictureInPictureAltIcon />
+                  
+                </IconButton>
+                <IconButton onClick={() => handlePlayerFullscreen()} title={screenfull.isFullscreen ? "フルスクリーン解除" : "フルスクリーン"}>
+                  {screenfull.isFullscreen ? (
+                    <CloseFullscreenIcon />
+                  ) : (
+                    <OpenInFullIcon />
+                  )}
+                </IconButton>
+                <IconButton>
+                  <SettingsIcon />
+                </IconButton>
+              </div>
             </div>
           </div>
         </div>
