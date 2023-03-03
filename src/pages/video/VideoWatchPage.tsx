@@ -15,6 +15,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
 import Styled from "./VideoWatchPage.module.scss";
 import PlayerSlider from "../../components/PlayerSlider/PlayerSlider";
+import VideoPlayerConfig from "../../components/VideoPlayerConfig/VideoPlayerConfig";
 
 interface VideoWatchPageProps{
   videoId: string
@@ -39,6 +40,8 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   const playedSeconds = useRef<number>(0);
   const durationSeconds = useRef<number>(0);
   const player = useRef<ReactPlayer>(null);
+  const [openVideoConfig, setOpenVideoConfig] = useState(false);
+  const [videoConfigAnchorEl, setVideoConfigAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [videoConfig, setVideoConfig] = useState<VideoConfig>({protocol: null, videoSrcIndex: 0});
   const canvas = useRef<HTMLCanvasElement>(null);
   const niconicomments = useRef<NiconiComments>();
@@ -93,6 +96,14 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   const durationTimeStr = useMemo(() => {
     return formatTime(durationSeconds.current);
   }, [durationSeconds.current]);
+  const handleVideoConfigOpen = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setOpenVideoConfig(true);
+    setVideoConfigAnchorEl(e.currentTarget);
+  };
+  const handleVideoConfigClose = () => {
+    setOpenVideoConfig(false);
+    setVideoConfigAnchorEl(null);
+  };
   useEffect(() => {
     (async () => {
       const _watchData = await nicoContextValue.extension.getVideoWatch(props.videoId, nicoContextValue.isLogin);
@@ -204,9 +215,10 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
                     <OpenInFullIcon />
                   )}
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={handleVideoConfigOpen} title="設定">
                   <SettingsIcon />
                 </IconButton>
+                <VideoPlayerConfig isOpen={openVideoConfig} setIsOpen={setOpenVideoConfig} anchorEl={videoConfigAnchorEl} onClose={handleVideoConfigClose} />
               </div>
             </div>
           </div>
