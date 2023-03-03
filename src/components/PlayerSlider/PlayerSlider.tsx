@@ -22,7 +22,7 @@ const PlayerSlider = (props: PlayerSliderProps) => {
   const handleSliderMove = (e: MouseEvent) => {
     if(isDragging.current && slider.current){
       const rect = slider.current.getBoundingClientRect();
-      const x = e.clientX - slider.current.offsetLeft;
+      const x = e.clientX - rect.left;
       const percentage = x / rect.width;
       props.onChange(percentage);
     }

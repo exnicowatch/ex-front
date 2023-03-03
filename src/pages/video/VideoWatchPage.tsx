@@ -31,7 +31,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   const [watchData, setWatchData] = useState<WatchData | null>(null);
   const session = useRef<Session | null>(null);
   const [playerStatus, setPlayerStatus] = useState<PlayerStatus>({
-    playing: true,
+    playing: false,
     pip: false,
     url: undefined,
     volume: 100,
@@ -170,7 +170,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   return (
     <div>
       <Box className={Styled.playerSection}>
-        <div id="videoPlayer">
+        <div id="videoPlayer" className={Styled.videoPlayer}>
           <div className={Styled.playerContainer}>
             <ReactPlayer
               ref={player}
@@ -194,67 +194,67 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
               progressInterval={1000 / 60}
             />
             <canvas hidden={!playerStatus.comment} className={Styled.commentCanvas} width={1920} height={1080} ref={canvas}></canvas>
-          </div>
-          <div>
-            <PlayerSlider
-              played={playerStatus.played}
-              loaded={playerStatus.loaded}
-              onChange={handleControllerSeek}
-            />
-            <div className={Styled.controlerContainer}>
-              <div className={Styled.controlerLeft}>
-                <IconButton size="small" onClick={() => handlePlayerPlay(!playerStatus.playing)} title={playerStatus.playing ? "停止" : "再生"}>
-                  {playerStatus.playing ? (
-                    <PauseIcon />
-                  ) : (
-                    <PlayArrowIcon />
-                  )}
-                </IconButton>
-                <div className={Styled.playerVolumeContainer}>
-                  <IconButton size="small" onClick={() => handlePlayerMuted(!playerStatus.muted)}>
-                    {playerStatus.muted ? (
-                      <VolumeOffIcon />
+            <div className={`${Styled.playerControler} ${playerStatus.playing ? "" : Styled.playPause}`}>
+              <PlayerSlider
+                played={playerStatus.played}
+                loaded={playerStatus.loaded}
+                onChange={handleControllerSeek}
+              />
+              <div className={Styled.controlerContainer}>
+                <div className={Styled.controlerLeft}>
+                  <IconButton size="small" onClick={() => handlePlayerPlay(!playerStatus.playing)} title={playerStatus.playing ? "停止" : "再生"}>
+                    {playerStatus.playing ? (
+                      <PauseIcon />
                     ) : (
-                      <VolumeUpIcon />
+                      <PlayArrowIcon />
                     )}
                   </IconButton>
-                  <Slider
-                    size="small"
-                    min={0}
-                    max={100}
-                    value={playerStatus.volume}
-                    onChange={handlePlayerVolumeChange}
-                    disabled={playerStatus.muted}
-                  />
+                  <div className={Styled.playerVolumeContainer}>
+                    <IconButton size="small" onClick={() => handlePlayerMuted(!playerStatus.muted)}>
+                      {playerStatus.muted ? (
+                        <VolumeOffIcon />
+                      ) : (
+                        <VolumeUpIcon />
+                      )}
+                    </IconButton>
+                    <Slider
+                      size="small"
+                      min={0}
+                      max={100}
+                      value={playerStatus.volume}
+                      onChange={handlePlayerVolumeChange}
+                      disabled={playerStatus.muted}
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className={Styled.controlerCenter}>
-                {playedTimeStr}
-                <span className={Styled.slash}>/</span>
-                {durationTimeStr}
-              </div>
-              <div className={Styled.controlerRight}>
-                <IconButton size="small" onClick={() => handlePlayerCommentVisible(!playerStatus.comment)} title={playerStatus.comment ? "コメントを消す" : "コメントを表示"}>
-                  {playerStatus.comment ? (
-                    <CommentIcon />
-                  ) : (
-                    <CommentsDisabledIcon />
-                  )}
-                </IconButton>
-                <IconButton size="small" onClick={() => handlePiP(true)} title="ピクチャーインピクチャー">
-                  <PictureInPictureAltIcon />
-                </IconButton>
-                <IconButton size="small" onClick={() => handlePlayerFullscreen()} title={screenfull.isFullscreen ? "フルスクリーン解除" : "フルスクリーン"}>
-                  {screenfull.isFullscreen ? (
-                    <CloseFullscreenIcon />
-                  ) : (
-                    <OpenInFullIcon />
-                  )}
-                </IconButton>
-                <IconButton size="small" onClick={handleVideoConfigOpen} title="設定">
-                  <SettingsIcon />
-                </IconButton>
-                <VideoPlayerConfig isOpen={openVideoConfig} setIsOpen={setOpenVideoConfig} anchorEl={videoConfigAnchorEl} onClose={handleVideoConfigClose} />
+                <div className={Styled.controlerCenter}>
+                  {playedTimeStr}
+                  <span className={Styled.slash}>/</span>
+                  {durationTimeStr}
+                </div>
+                <div className={Styled.controlerRight}>
+                  <IconButton size="small" onClick={() => handlePlayerCommentVisible(!playerStatus.comment)} title={playerStatus.comment ? "コメントを消す" : "コメントを表示"}>
+                    {playerStatus.comment ? (
+                      <CommentIcon />
+                    ) : (
+                      <CommentsDisabledIcon />
+                    )}
+                  </IconButton>
+                  <IconButton size="small" onClick={() => handlePiP(true)} title="ピクチャーインピクチャー">
+                    <PictureInPictureAltIcon />
+                  </IconButton>
+                  <IconButton size="small" onClick={() => handlePlayerFullscreen()} title={screenfull.isFullscreen ? "フルスクリーン解除" : "フルスクリーン"}>
+                    {screenfull.isFullscreen ? (
+                      <CloseFullscreenIcon />
+                    ) : (
+                      <OpenInFullIcon />
+                    )}
+                  </IconButton>
+                  <IconButton size="small" onClick={handleVideoConfigOpen} title="設定">
+                    <SettingsIcon />
+                  </IconButton>
+                  <VideoPlayerConfig isOpen={openVideoConfig} setIsOpen={setOpenVideoConfig} anchorEl={videoConfigAnchorEl} onClose={handleVideoConfigClose} />
+                </div>
               </div>
             </div>
           </div>
@@ -306,3 +306,14 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
 };
 
 export default VideoWatchPage;
+
+//プレイヤー +10 -10 loop playbackRate
+//meta
+//ツリー
+//市場
+
+//いいね・マイリス・共有・ギフト・その他(タグ編集,非表示,通報,大百科)
+//ユーザー ユーザーデータ クリサポ フォロー
+//シリーズ
+//コメント操作・コメント一覧・コメント投稿
+//関連動画

@@ -21,6 +21,21 @@
   height: 100%;
 }
 
+.playerControler{
+  transition: opacity .2s ease .1s;
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  top: calc(100% - 35px);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.videoPlayer:hover .playerControler,
+.playerControler.playPause
+{
+  opacity: 1;
+}
+
 .controlerContainer{
   width: 100%;
   display: flex;
@@ -65,7 +80,6 @@
   margin-inline: 10px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
 
 .videoTitle{
@@ -77,6 +91,8 @@
   flex-wrap: wrap;
   column-gap: 10px;
   row-gap: 5px;
+  margin-block: 5px;
+  user-select: none;
 }
 
 .videoTag{
