@@ -1,5 +1,5 @@
 .playerSection{
-  width: 70%;
+  width: 65%;
 }
 
 .playerContainer{
@@ -26,7 +26,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 40px;
+  height: 30px;
   user-select: none;
 }
 
@@ -63,7 +63,6 @@
 
 .videoMainMeta{
   margin-inline: 10px;
-  margin-block: 5px;
   display: flex;
   flex-direction: column;
   gap: 7px;
