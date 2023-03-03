@@ -16,6 +16,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import FolderIcon from '@mui/icons-material/Folder';
 import Styled from "./VideoWatchPage.module.scss";
 import PlayerSlider from "../../components/PlayerSlider/PlayerSlider";
 import VideoPlayerConfig from "../../components/VideoPlayerConfig/VideoPlayerConfig";
@@ -242,7 +243,6 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
                 </IconButton>
                 <IconButton onClick={() => handlePiP(true)} title="ピクチャーインピクチャー">
                   <PictureInPictureAltIcon />
-                  
                 </IconButton>
                 <IconButton onClick={() => handlePlayerFullscreen()} title={screenfull.isFullscreen ? "フルスクリーン解除" : "フルスクリーン"}>
                   {screenfull.isFullscreen ? (
@@ -259,24 +259,46 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
             </div>
           </div>
         </div>
-        <div className={Styled.videoMainMeta}>
-          <Typography className={Styled.videoTitle} variant="h6" component="h1">{watchData?.video.title}</Typography>
-          <div className={Styled.videoTags}>
-            {watchData?.tag.items.map((t, i) => (
-              <div key={i} className={`${Styled.videoTag} ${t.isLocked ? Styled.tagLocked : ""}`}>
-                <Link to={"/tag/"+t.name}>{t.name}</Link>
-                {t.isNicodicArticleExists && (
-                  <span className={Styled.tagDictionary}>
-                    <a target="_blank" rel="noreferrer noopener" href={"https://dic.nicovideo.jp/a/"+t.name}>百</a>
-                  </span>
-                )}
+        {watchData && (
+          <div className={Styled.videoDetail}>
+            <Typography className={Styled.videoTitle} variant="h6" component="h1">{watchData?.video.title}</Typography>
+            <div className={Styled.videoMeta}>
+              <div className={Styled.videoMetaCount}>
+                <PlayArrowIcon />
+                {watchData.video.count.view.toLocaleString()}
               </div>
-            ))}
+              <div className={Styled.videoMetaCount}>
+                <CommentIcon />
+                {watchData.video.count.comment.toLocaleString()}
+              </div>
+              <div className={Styled.videoMetaCount}>
+                <FolderIcon />
+                {watchData.video.count.mylist.toLocaleString()}
+              </div>
+              <div>
+                {new Date(watchData.video.registeredAt).toLocaleString()}
+              </div>
+              <div>
+                <Link to={"/genre/"+watchData.genre.key}>{watchData.genre.label}</Link>
+              </div>
+            </div>
+            <div className={Styled.videoTags}>
+              {watchData.tag.items.map((t, i) => (
+                <div key={i} className={`${Styled.videoTag} ${t.isLocked ? Styled.tagLocked : ""}`}>
+                  <Link to={"/tag/"+t.name}>{t.name}</Link>
+                  {t.isNicodicArticleExists && (
+                    <span className={Styled.tagDictionary}>
+                      <a target="_blank" rel="noreferrer noopener" href={"https://dic.nicovideo.jp/a/"+t.name}>百</a>
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className={Styled.videoDescription}>
+              {htmlParse(watchData.video.description)}
+            </div>
           </div>
-          <div className={Styled.videoDescription}>
-            {htmlParse(watchData?.video.description || "")}
-          </div>
-        </div>
+        )}
       </Box>
       <Box></Box>
     </div>
