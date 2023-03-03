@@ -47,6 +47,11 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   const [videoConfig, setVideoConfig] = useState<VideoConfig>({protocol: null, videoSrcIndex: 0});
   const canvas = useRef<HTMLCanvasElement>(null);
   const niconicomments = useRef<NiconiComments>();
+  const handlePlayerReady = () => {
+    if(player.current && niconicomments.current){
+      niconicomments.current.video = player.current.getInternalPlayer() as HTMLVideoElement;
+    }
+  }
   const handlePlayerProgress = (state: OnProgressProps) => {
     playedSeconds.current = state.playedSeconds;
     setPlayerStatus({...playerStatus, played: state.played, loaded: state.loaded});
@@ -174,6 +179,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
               volume={playerVolume}
               muted={playerStatus.muted}
               playbackRate={playerStatus.playbackRate}
+              onReady={handlePlayerReady}
               onProgress={handlePlayerProgress}
               onPlay={() => handlePlayerPlay(true)}
               onEnablePIP={() => handlePiP(true)}
