@@ -44,7 +44,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
     setPlayerStatus({...playerStatus, pip: value});
   };
   const handlePlayerEnded = () => {
-    setPlayerStatus({...playerStatus, playing: false/*playerStatus.loop*/});
+    setPlayerStatus({...playerStatus, playing: playerStatus.loop});
   }
   const handlePlayerDuration = (duration: number) => {
     durationSeconds.current = duration;
@@ -112,9 +112,13 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
     const sessionIntervalId = setInterval(async () => {
       if(session.current){
         const _session = await nicoContextValue.extension.putVideoSession(session.current);
-        console.log(_session);
         session.current = _session;
-        setPlayerStatus({...playerStatus, url: _session?.content_uri});
+        setPlayerStatus((_s) => {
+          if(_s.url !== _session?.content_uri){
+            return {..._s, url: _session?.content_uri};
+          }
+          return _s;
+        });
       }
     }, 40000);
     return () => clearInterval(sessionIntervalId);
@@ -191,6 +195,3 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
 };
 
 export default VideoWatchPage;
-
-//TODO
-//40秒おきの変な挙動の解析,Sliderをcomponentに移す
