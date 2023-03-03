@@ -1,3 +1,9 @@
 .watchPage{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.watchPageInner{
   max-width: 1300px;
 }

@@ -28,18 +28,20 @@ const WatchPage = () => {
   }, [watchId]);
   return (
     <div className={Styled.watchPage}>
-      {(service === "unknown" || !watchId) ? (
-        <NotFoundError />
-      ) : (
-        <>
-          {service === "video" && (
-            <VideoWatchPage videoId={watchId} />
-          )}
-          {service === "live" && (
-            <LiveWatchPage liveId={watchId} />
-          )}
-        </>
-      )}
+      <div className={Styled.watchPageInner}>
+        {(service === "unknown" || !watchId) ? (
+          <NotFoundError />
+        ) : (
+          <>
+            {service === "video" && (
+              <VideoWatchPage videoId={watchId} />
+            )}
+            {service === "live" && (
+              <LiveWatchPage liveId={watchId} />
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
