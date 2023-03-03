@@ -203,7 +203,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
             />
             <div className={Styled.controlerContainer}>
               <div className={Styled.controlerLeft}>
-                <IconButton onClick={() => handlePlayerPlay(!playerStatus.playing)} title={playerStatus.playing ? "停止" : "再生"}>
+                <IconButton size="small" onClick={() => handlePlayerPlay(!playerStatus.playing)} title={playerStatus.playing ? "停止" : "再生"}>
                   {playerStatus.playing ? (
                     <PauseIcon />
                   ) : (
@@ -211,7 +211,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
                   )}
                 </IconButton>
                 <div className={Styled.playerVolumeContainer}>
-                  <IconButton onClick={() => handlePlayerMuted(!playerStatus.muted)}>
+                  <IconButton size="small" onClick={() => handlePlayerMuted(!playerStatus.muted)}>
                     {playerStatus.muted ? (
                       <VolumeOffIcon />
                     ) : (
@@ -234,24 +234,24 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
                 {durationTimeStr}
               </div>
               <div className={Styled.controlerRight}>
-                <IconButton onClick={() => handlePlayerCommentVisible(!playerStatus.comment)} title={playerStatus.comment ? "コメントを消す" : "コメントを表示"}>
+                <IconButton size="small" onClick={() => handlePlayerCommentVisible(!playerStatus.comment)} title={playerStatus.comment ? "コメントを消す" : "コメントを表示"}>
                   {playerStatus.comment ? (
                     <CommentIcon />
                   ) : (
                     <CommentsDisabledIcon />
                   )}
                 </IconButton>
-                <IconButton onClick={() => handlePiP(true)} title="ピクチャーインピクチャー">
+                <IconButton size="small" onClick={() => handlePiP(true)} title="ピクチャーインピクチャー">
                   <PictureInPictureAltIcon />
                 </IconButton>
-                <IconButton onClick={() => handlePlayerFullscreen()} title={screenfull.isFullscreen ? "フルスクリーン解除" : "フルスクリーン"}>
+                <IconButton size="small" onClick={() => handlePlayerFullscreen()} title={screenfull.isFullscreen ? "フルスクリーン解除" : "フルスクリーン"}>
                   {screenfull.isFullscreen ? (
                     <CloseFullscreenIcon />
                   ) : (
                     <OpenInFullIcon />
                   )}
                 </IconButton>
-                <IconButton onClick={handleVideoConfigOpen} title="設定">
+                <IconButton size="small" onClick={handleVideoConfigOpen} title="設定">
                   <SettingsIcon />
                 </IconButton>
                 <VideoPlayerConfig isOpen={openVideoConfig} setIsOpen={setOpenVideoConfig} anchorEl={videoConfigAnchorEl} onClose={handleVideoConfigClose} />
