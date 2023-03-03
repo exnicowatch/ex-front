@@ -3,6 +3,7 @@ import NiconiComments from "@xpadev-net/niconicomments";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import screenfull from 'screenfull';
+import htmlParse from 'html-react-parser';
 import { OnProgressProps } from "react-player/base";
 import { NicoContext } from "../../provider/NicoProvider";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -18,6 +19,7 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import Styled from "./VideoWatchPage.module.scss";
 import PlayerSlider from "../../components/PlayerSlider/PlayerSlider";
 import VideoPlayerConfig from "../../components/VideoPlayerConfig/VideoPlayerConfig";
+import { Link } from "react-router-dom";
 
 interface VideoWatchPageProps{
   videoId: string
@@ -257,8 +259,23 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
             </div>
           </div>
         </div>
-        <div>
-          <Typography variant="h5" component="h1">{watchData?.video.title}</Typography>
+        <div className={Styled.videoMainMeta}>
+          <Typography className={Styled.videoTitle} variant="h6" component="h1">{watchData?.video.title}</Typography>
+          <div className={Styled.videoTags}>
+            {watchData?.tag.items.map((t, i) => (
+              <div key={i} className={`${Styled.videoTag} ${t.isLocked ? Styled.tagLocked : ""}`}>
+                <Link to={"/tag/"+t.name}>{t.name}</Link>
+                {t.isNicodicArticleExists && (
+                  <span className={Styled.tagDictionary}>
+                    <a target="_blank" rel="noreferrer noopener" href={"https://dic.nicovideo.jp/a/"+t.name}>百</a>
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+          <div className={Styled.videoDescription}>
+            {htmlParse(watchData?.video.description || "")}
+          </div>
         </div>
       </Box>
       <Box></Box>

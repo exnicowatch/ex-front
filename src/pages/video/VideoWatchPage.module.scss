@@ -60,3 +60,52 @@
   justify-content: center;
   align-items: center;
 }
+
+.videoMainMeta{
+  margin-inline: 10px;
+  margin-block: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.videoTitle{
+  font-weight: bold !important;
+}
+
+.videoTags{
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  row-gap: 5px;
+}
+
+.videoTag{
+  padding: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+  font-size: 12px;
+  align-items: center;
+  font-weight: bold;
+}
+
+.tagLocked{
+  border: 2px solid darkgoldenrod;
+}
+
+.tagDictionary{
+  background-color: darkred;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: bold;
+}
