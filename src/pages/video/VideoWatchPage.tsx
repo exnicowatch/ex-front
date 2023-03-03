@@ -6,6 +6,11 @@ import { OnProgressProps } from "react-player/base";
 import { NicoContext } from "../../provider/NicoProvider";
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import PauseIcon from '@mui/icons-material/Pause';
+import SettingsIcon from '@mui/icons-material/Settings';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
+import CommentIcon from '@mui/icons-material/Comment';
+import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
 import Styled from "./VideoWatchPage.module.scss";
 
 interface VideoWatchPageProps{
@@ -25,7 +30,8 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
     played: 0,
     loaded: 0,
     loop: false,
-    playbackRate: 1
+    playbackRate: 1,
+    comment: true
   });
   const playedSeconds = useRef<number>(0);
   const durationSeconds = useRef<number>(0);
@@ -51,6 +57,9 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   }
   const handlePlayerPlaybackRateChange = (speed: number) => {
     setPlayerStatus({...playerStatus, playbackRate: speed});
+  }
+  const handlePlayerCommentVisible = (value: boolean) => {
+    setPlayerStatus({...playerStatus, comment: value});
   }
   const handleControllerSeek = (played: number) => {
     player.current?.seekTo(played);
@@ -125,7 +134,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   }, []);
   useEffect(() => {
     const commentRendererIntervalId = setInterval(() => {
-      if(niconicomments.current){
+      if(niconicomments.current && playerStatus.comment){
         niconicomments.current.drawCanvas(Math.floor(playedSeconds.current * 100));
       }
     }, 1000 / 60);
@@ -155,7 +164,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
             onPlaybackRateChange={handlePlayerPlaybackRateChange}
             progressInterval={1000 / 60}
           />
-          <canvas className={Styled.commentCanvas} width={1920} height={1080} ref={canvas}></canvas>
+          <canvas hidden={!playerStatus.comment} className={Styled.commentCanvas} width={1920} height={1080} ref={canvas}></canvas>
         </div>
         <div>
           <div
@@ -169,7 +178,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
           </div>
           <div className={Styled.controlerContainer}>
             <div className={Styled.controlerLeft}>
-              <IconButton onClick={() => handlePlayerPlay(!playerStatus.playing)}>
+              <IconButton onClick={() => handlePlayerPlay(!playerStatus.playing)} title={playerStatus.playing ? "停止" : "再生"}>
                 {playerStatus.playing ? (
                   <PauseIcon />
                 ) : (
@@ -182,7 +191,24 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
               <span className={Styled.slash}>/</span>
               {durationTimeStr}
             </div>
-            <div className={Styled.controlerRight}></div>
+            <div className={Styled.controlerRight}>
+              <IconButton onClick={() => handlePlayerCommentVisible(!playerStatus.comment)} title={playerStatus.comment ? "コメントを表示しない" : "コメントを表示する"}>
+                {playerStatus.comment ? (
+                  <CommentIcon />
+                ) : (
+                  <CommentsDisabledIcon />
+                )}
+              </IconButton>
+              <IconButton onClick={() => handlePiP(true)}>
+                <PictureInPictureAltIcon />
+              </IconButton>
+              <IconButton>
+                <OpenInFullIcon />
+              </IconButton>
+              <IconButton>
+                <SettingsIcon />
+              </IconButton>
+            </div>
           </div>
         </div>
         <div>

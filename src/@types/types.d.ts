@@ -13,4 +13,5 @@ interface PlayerStatus{
   loaded: number
   loop: boolean
   playbackRate: number
+  comment: boolean
 }
