@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Slider, Typography } from "@mui/material";
 import NiconiComments from "@xpadev-net/niconicomments";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
@@ -13,6 +13,8 @@ import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
 import CommentIcon from '@mui/icons-material/Comment';
 import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import Styled from "./VideoWatchPage.module.scss";
 import PlayerSlider from "../../components/PlayerSlider/PlayerSlider";
 import VideoPlayerConfig from "../../components/VideoPlayerConfig/VideoPlayerConfig";
@@ -29,7 +31,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
     playing: true,
     pip: false,
     url: undefined,
-    volume: 1,
+    volume: 100,
     muted: false,
     played: 0,
     loaded: 0,
@@ -66,6 +68,12 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   }
   const handlePlayerCommentVisible = (value: boolean) => {
     setPlayerStatus({...playerStatus, comment: value});
+  }
+  const handlePlayerVolumeChange = (_: Event, value: number | number[]) => {
+    setPlayerStatus({...playerStatus, volume: value as number});
+  }
+  const handlePlayerMuted = (value: boolean) => {
+    setPlayerStatus({...playerStatus, muted: value});
   }
   const handlePlayerFullscreen = () => {
     if(screenfull.isEnabled){
@@ -148,6 +156,9 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
     }, 1000 / 60);
     return () => clearInterval(commentRendererIntervalId);
   }, []);
+  const playerVolume = useMemo(() => {
+    return playerStatus.volume / 100;
+  }, [playerStatus.volume]);
   return (
     <div>
       <Box className={Styled.playerSection}>
@@ -160,7 +171,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
               playing={playerStatus.playing}
               pip={playerStatus.pip}
               loop={playerStatus.loop}
-              volume={playerStatus.volume}
+              volume={playerVolume}
               muted={playerStatus.muted}
               playbackRate={playerStatus.playbackRate}
               onProgress={handlePlayerProgress}
@@ -190,6 +201,23 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
                     <PlayArrowIcon />
                   )}
                 </IconButton>
+                <div className={Styled.playerVolumeContainer}>
+                  <IconButton onClick={() => handlePlayerMuted(!playerStatus.muted)}>
+                    {playerStatus.muted ? (
+                      <VolumeOffIcon />
+                    ) : (
+                      <VolumeUpIcon />
+                    )}
+                  </IconButton>
+                  <Slider
+                    size="small"
+                    min={0}
+                    max={100}
+                    value={playerStatus.volume}
+                    onChange={handlePlayerVolumeChange}
+                    disabled={playerStatus.muted}
+                  />
+                </div>
               </div>
               <div className={Styled.controlerCenter}>
                 {playedTimeStr}
