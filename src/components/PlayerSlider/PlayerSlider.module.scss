@@ -1,0 +1,51 @@
+.playerSliderContainer{
+  position:relative;
+  width: 100%;
+  height: 5px;
+  background: #4d4d4d;
+  user-select: none;
+}
+
+.playerSliderArea{
+  position:absolute;
+  bottom: -6px;
+  height: 19px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.playerSliderLoaded{
+  position: absolute;
+  top: 8px;
+  left: 0;
+  height: 5px;
+  background: #d4d4d4;
+}
+
+.playerSliderPlayed{
+  position: absolute;
+  top: 8px;
+  left: 0;
+  height: 5px;
+  background: #007cff;
+}
+
+.playerSliderThumb{
+  background-color: #007cff;
+  border-radius: 50%;
+  height: 16px;
+  position: absolute;
+  right: -8px;
+  top: -6px;
+  transform: scale(0);
+  visibility: hidden;
+  width: 16px;
+}
+
+.playerSliderArea:hover .playerSliderThumb,
+.playerSliderThumb.dragging
+{
+  transform: scale(1);
+  transition: transform .2s ease .1s;
+  visibility: visible;
+}

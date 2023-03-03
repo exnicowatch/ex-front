@@ -14,6 +14,7 @@ import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
 import CommentIcon from '@mui/icons-material/Comment';
 import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
 import Styled from "./VideoWatchPage.module.scss";
+import PlayerSlider from "../../components/PlayerSlider/PlayerSlider";
 
 interface VideoWatchPageProps{
   videoId: string
@@ -78,25 +79,6 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   }
   const handleControllerSeek = (played: number) => {
     player.current?.seekTo(played);
-  }
-  const [isDragging, setIsDragging] = useState(false);
-  const handleControllerSeekUp = () => {
-    setIsDragging(false);
-  }
-  const handleControllerSeekMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if(isDragging){
-      const rect = event.currentTarget.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const percentage = x / rect.width;
-      handleControllerSeek(percentage);
-    }
-  }
-  const handleControllerSeekDown = (event: React.MouseEvent<HTMLDivElement>) => {
-    setIsDragging(true);
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const percentage = x / rect.width;
-    handleControllerSeek(percentage);
   }
   const formatTime = (s: number) => {
     const minutes = Math.floor(s / 60);
@@ -183,15 +165,11 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
             <canvas hidden={!playerStatus.comment} className={Styled.commentCanvas} width={1920} height={1080} ref={canvas}></canvas>
           </div>
           <div>
-            <div
-              className={Styled.playerSliderContainer}
-              onMouseMove={handleControllerSeekMove}
-              onMouseUp={handleControllerSeekUp}
-              onMouseDown={handleControllerSeekDown}
-            >
-              <div style={{width: `${playerStatus.loaded * 100}%`}} className={Styled.playerSliderLoaded} />
-              <div style={{width: `${playerStatus.played * 100}%`}} className={Styled.playerSliderPlayed} />
-            </div>
+            <PlayerSlider
+              played={playerStatus.played}
+              loaded={playerStatus.loaded}
+              onChange={handleControllerSeek}
+            />
             <div className={Styled.controlerContainer}>
               <div className={Styled.controlerLeft}>
                 <IconButton onClick={() => handlePlayerPlay(!playerStatus.playing)} title={playerStatus.playing ? "停止" : "再生"}>
