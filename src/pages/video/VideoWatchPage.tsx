@@ -49,7 +49,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   const niconicomments = useRef<NiconiComments>();
   const handlePlayerReady = () => {
     if(player.current && niconicomments.current){
-      niconicomments.current.video = player.current.getInternalPlayer() as HTMLVideoElement;
+      //niconicomments.current.video = player.current.getInternalPlayer() as HTMLVideoElement;
     }
   }
   const handlePlayerProgress = (state: OnProgressProps) => {
