@@ -1,4 +1,4 @@
-import { Box, IconButton, Slider, Typography } from "@mui/material";
+import { Box, Button, IconButton, Slider, Typography } from "@mui/material";
 import NiconiComments from "@xpadev-net/niconicomments";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
@@ -168,8 +168,33 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
     return playerStatus.volume / 100;
   }, [playerStatus.volume]);
   return (
-    <div>
+    <div className={Styled.videoWatch}>
       <Box className={Styled.playerSection}>
+        {watchData && (
+          <div className={Styled.videoDetail}>
+            <Typography className={Styled.videoTitle} variant="h6" component="h1">{watchData?.video.title}</Typography>
+            <div className={Styled.videoMeta}>
+              <div className={Styled.videoMetaCount}>
+                <PlayArrowIcon />
+                {watchData.video.count.view.toLocaleString()}
+              </div>
+              <div className={Styled.videoMetaCount}>
+                <CommentIcon />
+                {watchData.video.count.comment.toLocaleString()}
+              </div>
+              <div className={Styled.videoMetaCount}>
+                <FolderIcon />
+                {watchData.video.count.mylist.toLocaleString()}
+              </div>
+              <div>
+                {new Date(watchData.video.registeredAt).toLocaleString()}
+              </div>
+              <div>
+                <Link to={"/genre/"+watchData.genre.key}>{watchData.genre.label}</Link>
+              </div>
+            </div>
+          </div>
+        )}
         <div id="videoPlayer" className={Styled.videoPlayer}>
           <div className={Styled.playerContainer}>
             <ReactPlayer
@@ -261,27 +286,6 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
         </div>
         {watchData && (
           <div className={Styled.videoDetail}>
-            <Typography className={Styled.videoTitle} variant="h6" component="h1">{watchData?.video.title}</Typography>
-            <div className={Styled.videoMeta}>
-              <div className={Styled.videoMetaCount}>
-                <PlayArrowIcon />
-                {watchData.video.count.view.toLocaleString()}
-              </div>
-              <div className={Styled.videoMetaCount}>
-                <CommentIcon />
-                {watchData.video.count.comment.toLocaleString()}
-              </div>
-              <div className={Styled.videoMetaCount}>
-                <FolderIcon />
-                {watchData.video.count.mylist.toLocaleString()}
-              </div>
-              <div>
-                {new Date(watchData.video.registeredAt).toLocaleString()}
-              </div>
-              <div>
-                <Link to={"/genre/"+watchData.genre.key}>{watchData.genre.label}</Link>
-              </div>
-            </div>
             <div className={Styled.videoTags}>
               {watchData.tag.items.map((t, i) => (
                 <div key={i} className={`${Styled.videoTag} ${t.isLocked ? Styled.tagLocked : ""}`}>
@@ -300,7 +304,26 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
           </div>
         )}
       </Box>
-      <Box></Box>
+      <Box className={Styled.subSection}>
+        {(watchData && watchData.owner) && (
+          <div className={Styled.ownerDetail}>
+            <Link to={`/user/${watchData.owner.id}`}>
+              <img src={watchData.owner.iconUrl} alt="OwnerIcon" />
+              {watchData.owner.nickname}
+            </Link>
+            {watchData.owner.viewer && (
+              <>
+                <Button className={Styled.supportBtn} variant="outlined">クリサポ</Button>
+                {watchData.owner.viewer.isFollowing ? (
+                  <Button variant="contained">フォロー解除</Button>
+                ) : (
+                  <Button variant="outlined">フォロー</Button>
+                )}
+              </>
+            )}
+          </div>
+        )}
+      </Box>
     </div>
   )
 };

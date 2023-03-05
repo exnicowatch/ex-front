@@ -1,5 +1,13 @@
+.videoWatch{
+  display: flex;
+}
+
 .playerSection{
   width: 65%;
+}
+
+.subSection{
+  width: 35%;
 }
 
 .playerContainer{
@@ -140,5 +148,31 @@
   gap: 3px;
   svg{
     width: 16px;
+  }
+}
+
+.ownerDetail{
+  flex-direction: row;
+  display: flex;
+  width: 100%;
+  height: 40px;
+  margin: 5px;
+  align-items: center;
+  gap: 5px;
+  a{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 10px;
+    img{
+      border-radius: 50%;
+      height: 100%;
+    }
+  }
+  button{
+    font-weight: bold;
+  }
+  button.supportBtn{
+    margin-left: auto !important;
   }
 }
