@@ -1,4 +1,4 @@
-# exnicowatch/ex-front
+# <img src="https://avatars.githubusercontent.com/u/126539403" style="width:30px;vertical-align:bottom;margin-bottom:2px;margin-right:4px;"/>exnicowatch/ex-front
 
 [exnicowatch](https://github.com/exnicowatch)のフロントエンドに関するリポジトリ([ex.n4a.dev](https://ex.n4a.dev))
 
