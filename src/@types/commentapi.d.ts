@@ -18,7 +18,7 @@ interface NvThread{
   commentCount: number
   fork: string
   id: string
-  comments: { [key: string]: NvComment }
+  comments: NvComment[]
 }
 
 interface NvComment{

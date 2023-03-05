@@ -21,6 +21,7 @@ import Styled from "./VideoWatchPage.module.scss";
 import PlayerSlider from "../../components/PlayerSlider/PlayerSlider";
 import VideoPlayerConfig from "../../components/VideoPlayerConfig/VideoPlayerConfig";
 import { Link } from "react-router-dom";
+import VideoCommentContainer from "../../components/VideoCommentContainer/VideoCommentContainer";
 
 interface VideoWatchPageProps{
   videoId: string
@@ -50,6 +51,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   const [videoConfig, setVideoConfig] = useState<VideoConfig>({protocol: null, videoSrcIndex: 0});
   const canvas = useRef<HTMLCanvasElement>(null);
   const niconicomments = useRef<NiconiComments>();
+  const [comments, setComments] = useState<NvThread[]>([]);
   const handlePlayerReady = () => {
     if(player.current && niconicomments.current){
       //niconicomments.current.video = player.current.getInternalPlayer() as HTMLVideoElement;
@@ -127,6 +129,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
       if(_watchData && _watchData.media.delivery && canvas.current){
         document.title = `${_watchData.video.title} | ExNicoWatch`;
         const _comment = await nicoContextValue.extension.getVideoComments(_watchData.comment.nvComment);
+        setComments(_comment);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         niconicomments.current = new NiconiComments(canvas.current, _comment as any, {format: "v1"});
         niconicomments.current.drawCanvas(0);
@@ -322,6 +325,9 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
               </>
             )}
           </div>
+        )}
+        {comments.length >= 2 && (
+          <VideoCommentContainer thread={comments} />
         )}
       </Box>
     </div>
