@@ -22,6 +22,7 @@ import PlayerSlider from "../../components/PlayerSlider/PlayerSlider";
 import VideoPlayerConfig from "../../components/VideoPlayerConfig/VideoPlayerConfig";
 import { Link } from "react-router-dom";
 import VideoCommentContainer from "../../components/VideoCommentContainer/VideoCommentContainer";
+import dayjs from "dayjs";
 
 interface VideoWatchPageProps{
   videoId: string
@@ -190,7 +191,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
                 {watchData.video.count.mylist.toLocaleString()}
               </div>
               <div>
-                {new Date(watchData.video.registeredAt).toLocaleString()}
+                {dayjs(watchData.video.registeredAt).format('YYYY/MM/DD HH:mm:ss')}
               </div>
               <div>
                 <Link to={"/genre/"+watchData.genre.key}>{watchData.genre.label}</Link>
