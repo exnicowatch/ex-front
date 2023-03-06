@@ -1,0 +1,77 @@
+.senderContainer{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: 30px;
+  border: 2px solid;
+  border-radius: 5px;
+  font-size: 14px;
+  .commandInput{
+    width: 20%;
+    border: 0;
+    border-right: 2px solid;
+    max-width: 150px;
+    padding-inline: 5px;
+  }
+  .commentInput{
+    border: 0;
+    border-right: 2px solid;
+    flex-grow: 1;
+    justify-content: center;
+    padding-inline: 5px;
+    height: 100%;
+    overflow: hidden;
+    align-items: flex-start;
+  }
+  button{
+    width: 60px;
+    border: 0;
+    font-weight: bold;
+    color: inherit;
+    background: transparent;
+    border-radius: 0px 3px 3px 0px;
+  }
+}
+
+.commandSelecter{
+  margin-bottom: 5px !important;
+  .commandButtons{
+    padding-inline: 9px;
+    padding-block: 4px;
+    .sizeCommandSection{
+      margin-block: 6px;
+      button{
+        height: 30px;
+      }
+      .big{
+        font-size: 130%;
+      }
+      .small{
+        font-size: 70%;
+      }
+    }
+    .posCommandSection{
+      margin-block: 6px;
+      button{
+        height: 30px;
+      }
+    }
+    .fontCommandSection{
+      margin-block: 6px;
+      button{
+        height: 30px;
+      }
+      .defont{
+        font-weight: 900;
+      }
+      .gothic{
+        font-weight: 900;
+        font-family: "Yu Gothic", "Meiryo", sans-serif;
+      }
+      .mincho{
+        font-weight: 900;
+        font-family: "Yu Mincho", "Hiragino Mincho ProN", "MS Mincho", serif;
+      }
+    }
+  }
+}

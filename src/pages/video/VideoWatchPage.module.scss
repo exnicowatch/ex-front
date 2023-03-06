@@ -38,6 +38,12 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.videoPlayer{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .videoPlayer:hover .playerControler,
 .playerControler.playPause
 {

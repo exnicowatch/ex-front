@@ -23,6 +23,7 @@ import VideoPlayerConfig from "../../components/VideoPlayerConfig/VideoPlayerCon
 import { Link } from "react-router-dom";
 import VideoCommentContainer from "../../components/VideoCommentContainer/VideoCommentContainer";
 import dayjs from "dayjs";
+import CommentSender from "../../components/CommentSender/CommentSender";
 
 interface VideoWatchPageProps{
   videoId: string
@@ -287,6 +288,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
               </div>
             </div>
           </div>
+          <CommentSender />
         </div>
         {watchData && (
           <div className={Styled.videoDetail}>
