@@ -124,6 +124,29 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
     setOpenVideoConfig(false);
     setVideoConfigAnchorEl(null);
   };
+  const handleCommentSend = (_no: number, _id: string, _thread: WatchCommentThread) => {
+    (async() => {
+      if(watchData && canvas.current){
+        let _comment = await nicoContextValue.extension.getVideoComments(watchData.comment.nvComment);
+        _comment = _comment.map((ct) => {
+          if(ct.fork === _thread.forkLabel && ct.id === _thread.id.toString()){
+            ct.comments = ct.comments.map((c) => {
+              if(c.no === _no && c.id === _id){
+                c.commands.push("nico:waku:yellow");
+              }
+              return c;
+            });
+          }
+          return ct;
+        })
+        console.log(_comment);
+        setComments(_comment);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        niconicomments.current = new NiconiComments(canvas.current, _comment as any, {format: "v1"});
+        niconicomments.current.drawCanvas(Math.floor(playedSeconds.current * 100));
+      }
+    })();
+  }
   useEffect(() => {
     (async () => {
       const _watchData = await nicoContextValue.extension.getVideoWatch(props.videoId, nicoContextValue.isLogin);
@@ -288,7 +311,9 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
               </div>
             </div>
           </div>
-          <CommentSender />
+          {(watchData && watchData.viewer) && (
+            <CommentSender playedSeconds={playedSeconds.current} videoId={watchData.video.id} thread={watchData.comment.threads.find((t) => t.isDefaultPostTarget)} onCommentSend={handleCommentSend} />
+          )}
         </div>
         {watchData && (
           <div className={Styled.videoDetail}>

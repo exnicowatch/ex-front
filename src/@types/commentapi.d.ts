@@ -1,12 +1,14 @@
-interface NvCommentAPIResponse{
+interface NvCommentAPIResponse<T>{
   meta: {
     status: number
     errorCode: string
   }
-  data?: {
-    globalComments: NvGlobalComment[]
-    threads: NvThread[]
-  }
+  data?: T
+}
+
+interface NvCommentGetResponse{
+  globalComments: NvGlobalComment[]
+  threads: NvThread[]
 }
 
 interface NvGlobalComment{
@@ -23,7 +25,7 @@ interface NvThread{
 
 interface NvComment{
   body: string
-  comments: string[]
+  commands: string[]
   id: string
   isMyPost: boolean
   isPremium: boolean
@@ -47,4 +49,17 @@ interface NvCommentAPIRequest{
     targets: WatchNvCommentTarget[]
     language: string
   }
+}
+
+interface NvCommentAPIPostRequest{
+  body: string
+  commands: string[]
+  postKey: string
+  videoId: string
+  vposMs: number
+}
+
+interface NvCommentPostResponse{
+  id: string
+  no: number
 }

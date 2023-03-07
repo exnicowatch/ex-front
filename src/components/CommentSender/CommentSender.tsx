@@ -5,7 +5,8 @@ https://github.com/eneko0513/NicoNicoDansaScriptCustom/blob/main/LICENSE
  */
 
 import { Button, InputBase, Paper, Popper } from "@mui/material";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { NicoContext } from "../../provider/NicoProvider";
 import { Commands } from "./CommandList";
 import Styled from "./CommentSender.module.scss";
 
@@ -28,13 +29,22 @@ const getItemsFromGroup = (group: string): string[] => {
   return result;
 };
 
-const CommentSender = () => {
+interface CommentSenderProps{
+  playedSeconds: number
+  videoId: string
+  thread: WatchCommentThread | undefined
+  onCommentSend: (no: number, id: string, thread: WatchCommentThread) => void;
+}
+
+const CommentSender = (props: CommentSenderProps) => {
+  const nicoContextValue = useContext(NicoContext);
   const [isCommandSelected, setIsCommandSelected] = useState(false);
   const commandInputElement = useRef<HTMLInputElement>(null);
   const popperElement = useRef<HTMLDivElement>(null);
   const [commands, setCommands] = useState<string[]>([]);
   const [commandsStr, setCommandsStr] = useState<string>("");
   const [comment, setComment] = useState<string>("");
+  const postKey = useRef<string>(null);
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.currentTarget.value);
   };
@@ -45,8 +55,20 @@ const CommentSender = () => {
   const handleCommandAreaClick = () => {
     setIsCommandSelected(true);
   };
-  const handleCommentSubmit = () => {
-    return null;
+  const handleCommentSubmit = async () => {
+    if(props.thread && comment.length >= 1){
+      let _key = postKey.current;
+      if(_key === null){
+        _key = await nicoContextValue.extension.getVideoCommentPostkey(props.thread.id);
+      }
+      if(_key !== null){
+        const [_no, _id] = await nicoContextValue.extension.postVideoComment(props.videoId, props.thread.id.toString(), _key, comment, commands, Math.floor(props.playedSeconds * 1000));
+        if(_no !== null &&_id !== null){
+          setComment("");
+          props.onCommentSend(_no, _id, props.thread);
+        }
+      }
+    }
   };
   const updateCommand = useCallback((value: string) => {
     let currentCommands = commands;
@@ -96,7 +118,14 @@ const CommentSender = () => {
         onChange={handleCommentChange}
         inputProps={{maxLength: 75}}
       />
-      <Button variant="contained" color="primary" onClick={handleCommentSubmit}>送信</Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleCommentSubmit}
+        disabled={props.thread === undefined || comment.length === 0}
+      >
+        送信
+      </Button>
       <Popper
         placement="top-start"
         ref={popperElement}

@@ -10,7 +10,7 @@ interface NvAPIMeta{
 
 interface NvAPIUserResponse{
   user: NvAPIUser,
-  relationships: NvAPIrelationships
+  relationships: NvAPIRelationships
 }
 
 interface NvAPIOwnUserResponse{
@@ -72,9 +72,13 @@ interface NvAPIOwnUser extends NvAPIUser{
   isNicorepoAutoPostedToTwitter: boolean,
 }
 
-interface NvAPIrelationships{
+interface NvAPIRelationships{
   sessionUser: {
     isFollowing: boolean
   },
   isMe: boolean
+}
+
+interface NvAPIPostkey{
+  postKey: string
 }

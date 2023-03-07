@@ -25,7 +25,7 @@ export default class Extension{
     });
   }
 
-  async getUser(id: number): Promise<[NvAPIUser | null, NvAPIrelationships | null]>{
+  async getUser(id: number): Promise<[NvAPIUser | null, NvAPIRelationships | null]>{
     const user = await this.sendMessage<NvAPIResponse<NvAPIUserResponse>>({type: "fetchApi", payload: {
       url: `https://nvapi.nicovideo.jp/v1/users/${id}`,
       method: "GET"
@@ -197,7 +197,7 @@ export default class Extension{
       },
       params: nvComment.params
     }
-    const comments = await this.sendMessage<NvCommentAPIResponse>({type: "fetchApi", payload: {
+    const comments = await this.sendMessage<NvCommentAPIResponse<NvCommentGetResponse>>({type: "fetchApi", payload: {
       url: "https://nvcomment.nicovideo.jp/v1/threads",
       method: "POST",
       param: commentReq,
@@ -209,5 +209,38 @@ export default class Extension{
       return comments.data.threads;
     }
     return [];
+  }
+
+  async getVideoCommentPostkey(threadId: number | string): Promise<string | null>{
+    const postKey = await this.sendMessage<NvAPIResponse<NvAPIPostkey>>({type: "fetchApi", payload: {
+      url: `https://nvapi.nicovideo.jp/v1/comment/keys/post?threadId=${threadId}`,
+      method: "GET"
+    }});
+    if(postKey.meta.status === 200 && postKey.data){
+      return postKey.data.postKey;
+    }
+    return null;
+  }
+
+  async postVideoComment(videoId: string, threadId: string, postKey: string, body: string, commands: string[], vposMs: number): Promise<[number | null, string | null]>{
+    const postCommentReq: NvCommentAPIPostRequest = {
+      body: body,
+      commands: commands,
+      postKey: postKey,
+      videoId: videoId,
+      vposMs: vposMs
+    };
+    const postCommentRes = await this.sendMessage<NvCommentAPIResponse<NvCommentPostResponse>>({type: "fetchApi", payload: {
+      url: `https://nvcomment.nicovideo.jp/v1/threads/${threadId}/comments`,
+      method: "POST",
+      param: postCommentReq,
+      header: {
+        "Referer": "https://www.nicovideo.jp/"
+      }
+    }});
+    if(postCommentRes.meta.status === 201 && postCommentRes.data){
+      return [postCommentRes.data.no, postCommentRes.data.id];
+    }
+    return [null, null];
   }
 }
