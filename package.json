@@ -11,7 +11,7 @@
     "@types/node": "^18.14.2",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
-    "@xpadev-net/niconicomments": "^0.2.45",
+    "@xpadev-net/niconicomments": "github:Negima1072/niconicomments",
     "dayjs": "^1.11.7",
     "html-react-parser": "^3.0.9",
     "react": "^18.2.0",
