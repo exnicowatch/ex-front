@@ -44,7 +44,7 @@ const CommentSender = (props: CommentSenderProps) => {
   const [commands, setCommands] = useState<string[]>([]);
   const [commandsStr, setCommandsStr] = useState<string>("");
   const [comment, setComment] = useState<string>("");
-  let postKey: string | null = null;
+  const postKey = useRef<string | null>(null);
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setComment(e.currentTarget.value);
   };
@@ -59,17 +59,17 @@ const CommentSender = (props: CommentSenderProps) => {
     let retry = 0;
     async function doComment(){
       if(props.thread && comment.length >= 1){
-        if(postKey === null){
-          postKey = await nicoContextValue.extension.getVideoCommentPostkey(props.thread.id);
+        if(postKey.current === null){
+          postKey.current = await nicoContextValue.extension.getVideoCommentPostkey(props.thread.id);
         }
-        if(postKey !== null){
-          const [_no, _id, errorCode] = await nicoContextValue.extension.postVideoComment(props.videoId, props.thread.id.toString(), postKey, comment, commands, Math.floor(props.playedSeconds * 1000));
+        if(postKey.current !== null){
+          const [_no, _id, errorCode] = await nicoContextValue.extension.postVideoComment(props.videoId, props.thread.id.toString(), postKey.current, comment, commands, Math.floor(props.playedSeconds * 1000));
           if(_no !== null && _id !== null && errorCode === null){
             setComment("");
             props.onCommentSend(_no, _id, props.thread);
           }
           else if(errorCode === "EXPIRED_TOKEN" && retry === 0){
-            postKey = null;
+            postKey.current = null;
             retry = 1;
             await doComment();
           }
