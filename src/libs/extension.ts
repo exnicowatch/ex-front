@@ -188,7 +188,7 @@ export default class Extension{
     return null;
   }
 
-  async getVideoComments(nvComment: WatchNvComment, when?: number, res_from?: number): Promise<NvThread[]>{
+  async getVideoComments(nvComment: WatchNvComment, when?: number, res_from?: number): Promise<[NvThread[], string | null]>{
     const commentReq: NvCommentAPIRequest = {
       threadKey: nvComment.threadKey,
       additionals: {
@@ -206,9 +206,20 @@ export default class Extension{
       }
     }});
     if(comments.meta.status === 200 && comments.data){
-      return comments.data.threads;
+      return [comments.data.threads, null];
     }
-    return [];
+    return [[], comments.meta.errorCode || "Error"];
+  }
+
+  async getVideoCommentThreadkey(threadId: number | string): Promise<string | null>{
+    const threadKey = await this.sendMessage<NvAPIResponse<NvAPIThreadkey>>({type: "fetchApi", payload: {
+      url: `https://nvapi.nicovideo.jp/v1/comment/keys/thread?threadId=${threadId}`,
+      method: "GET"
+    }});
+    if(threadKey.meta.status === 200 && threadKey.data){
+      return threadKey.data.threadKey;
+    }
+    return null;
   }
 
   async getVideoCommentPostkey(threadId: number | string): Promise<string | null>{

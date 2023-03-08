@@ -79,6 +79,10 @@ interface NvAPIRelationships{
   isMe: boolean
 }
 
+interface NvAPIThreadkey{
+  threadKey: string
+}
+
 interface NvAPIPostkey{
   postKey: string
 }

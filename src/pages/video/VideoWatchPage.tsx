@@ -127,23 +127,31 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   const handleCommentSend = (_no: number, _id: string, _thread: WatchCommentThread) => {
     (async() => {
       if(watchData && canvas.current){
-        let _comment = await nicoContextValue.extension.getVideoComments(watchData.comment.nvComment);
-        _comment = _comment.map((ct) => {
-          if(ct.fork === _thread.forkLabel && ct.id === _thread.id.toString()){
-            ct.comments = ct.comments.map((c) => {
-              if(c.no === _no && c.id === _id){
-                c.commands.push("nico:waku:yellow");
-              }
-              return c;
-            });
+        let [_comment, errorCode] = await nicoContextValue.extension.getVideoComments(watchData.comment.nvComment);
+        if(errorCode === "EXPIRED_TOKEN"){
+          const _threadKey = (await nicoContextValue.extension.getVideoCommentThreadkey(_thread.id));
+          if(_threadKey){
+            watchData.comment.nvComment.threadKey = _threadKey;
+            [_comment, errorCode] = await nicoContextValue.extension.getVideoComments(watchData.comment.nvComment);
           }
-          return ct;
-        })
-        console.log(_comment);
-        setComments(_comment);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        niconicomments.current = new NiconiComments(canvas.current, _comment as any, {format: "v1"});
-        niconicomments.current.drawCanvas(Math.floor(playedSeconds.current * 100));
+        }
+        if(errorCode === null){
+          _comment = _comment.map((ct) => {
+            if(ct.fork === _thread.forkLabel && ct.id === _thread.id.toString()){
+              ct.comments = ct.comments.map((c) => {
+                if(c.no === _no && c.id === _id){
+                  c.commands.push("nico:waku:yellow");
+                }
+                return c;
+              });
+            }
+            return ct;
+          });
+          setComments(_comment);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          niconicomments.current = new NiconiComments(canvas.current, _comment as any, {format: "v1"});
+          niconicomments.current.drawCanvas(Math.floor(playedSeconds.current * 100));
+        }
       }
     })();
   }
@@ -153,18 +161,30 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
       setWatchData(_watchData);
       if(_watchData && _watchData.media.delivery && canvas.current){
         document.title = `${_watchData.video.title} | ExNicoWatch`;
-        const _comment = await nicoContextValue.extension.getVideoComments(_watchData.comment.nvComment);
-        setComments(_comment);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        niconicomments.current = new NiconiComments(canvas.current, _comment as any, {format: "v1"});
-        niconicomments.current.drawCanvas(0);
-        const _sendEv = await nicoContextValue.extension.sendVideoWatchEvent(_watchData.media.delivery.trackingId);
-        const _protocol = _watchData.media.delivery.movie.session.protocols[0];
-        setVideoConfig({...videoConfig, protocol: _protocol});
-        if(_sendEv){
-          const _session = await nicoContextValue.extension.sendVideoSession(_watchData.media.delivery, _protocol, _watchData.media.delivery.movie.session.videos[videoConfig.videoSrcIndex]);
-          session.current = _session;
-          setPlayerStatus({...playerStatus, url: _session?.content_uri});
+        let [_comment, errorCode] = await nicoContextValue.extension.getVideoComments(_watchData.comment.nvComment);
+        if(errorCode === "EXPIRED_TOKEN"){
+          const _thread = _watchData.comment.threads.find((t) => t.isDefaultPostTarget);
+          if(_thread){
+            const _threadKey = (await nicoContextValue.extension.getVideoCommentThreadkey(_thread.id));
+            if(_threadKey){
+              _watchData.comment.nvComment.threadKey = _threadKey;
+              [_comment, errorCode] = await nicoContextValue.extension.getVideoComments(_watchData.comment.nvComment);
+            }
+          }
+        }
+        if(errorCode === null){
+          setComments(_comment);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          niconicomments.current = new NiconiComments(canvas.current, _comment as any, {format: "v1"});
+          niconicomments.current.drawCanvas(0);
+          const _sendEv = await nicoContextValue.extension.sendVideoWatchEvent(_watchData.media.delivery.trackingId);
+          const _protocol = _watchData.media.delivery.movie.session.protocols[0];
+          setVideoConfig({...videoConfig, protocol: _protocol});
+          if(_sendEv){
+            const _session = await nicoContextValue.extension.sendVideoSession(_watchData.media.delivery, _protocol, _watchData.media.delivery.movie.session.videos[videoConfig.videoSrcIndex]);
+            session.current = _session;
+            setPlayerStatus({...playerStatus, url: _session?.content_uri});
+          }
         }
       }
     })();
