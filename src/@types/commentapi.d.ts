@@ -1,7 +1,7 @@
 interface NvCommentAPIResponse<T>{
   meta: {
     status: number
-    errorCode: string
+    errorCode?: string
   }
   data?: T
 }

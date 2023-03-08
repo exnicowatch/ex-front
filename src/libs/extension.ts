@@ -222,7 +222,7 @@ export default class Extension{
     return null;
   }
 
-  async postVideoComment(videoId: string, threadId: string, postKey: string, body: string, commands: string[], vposMs: number): Promise<[number | null, string | null]>{
+  async postVideoComment(videoId: string, threadId: string, postKey: string, body: string, commands: string[], vposMs: number): Promise<[number | null, string | null, string | null]>{
     const postCommentReq: NvCommentAPIPostRequest = {
       body: body,
       commands: commands,
@@ -239,8 +239,9 @@ export default class Extension{
       }
     }});
     if(postCommentRes.meta.status === 201 && postCommentRes.data){
-      return [postCommentRes.data.no, postCommentRes.data.id];
+      return [postCommentRes.data.no, postCommentRes.data.id, null];
     }
-    return [null, null];
+    //postkeyの期限切れ処理
+    return [null, null, postCommentRes.meta.errorCode || "Error"];
   }
 }
