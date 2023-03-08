@@ -2,21 +2,21 @@ import { Box, Button, IconButton, Slider, Typography } from "@mui/material";
 import NiconiComments from "@xpadev-net/niconicomments";
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import screenfull from 'screenfull';
-import htmlParse from 'html-react-parser';
+import screenfull from "screenfull";
+import htmlParse from "html-react-parser";
 import { OnProgressProps } from "react-player/base";
 import { NicoContext } from "../../provider/NicoProvider";
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import PauseIcon from '@mui/icons-material/Pause';
-import SettingsIcon from '@mui/icons-material/Settings';
-import OpenInFullIcon from '@mui/icons-material/OpenInFull';
-import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
-import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
-import CommentIcon from '@mui/icons-material/Comment';
-import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import FolderIcon from '@mui/icons-material/Folder';
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import PauseIcon from "@mui/icons-material/Pause";
+import SettingsIcon from "@mui/icons-material/Settings";
+import OpenInFullIcon from "@mui/icons-material/OpenInFull";
+import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
+import PictureInPictureAltIcon from "@mui/icons-material/PictureInPictureAlt";
+import CommentIcon from "@mui/icons-material/Comment";
+import CommentsDisabledIcon from "@mui/icons-material/CommentsDisabled";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
+import FolderIcon from "@mui/icons-material/Folder";
 import Styled from "./VideoWatchPage.module.scss";
 import PlayerSlider from "../../components/PlayerSlider/PlayerSlider";
 import VideoPlayerConfig from "../../components/VideoPlayerConfig/VideoPlayerConfig";
@@ -25,9 +25,9 @@ import VideoCommentContainer from "../../components/VideoCommentContainer/VideoC
 import dayjs from "dayjs";
 import CommentSender from "../../components/CommentSender/CommentSender";
 
-interface VideoWatchPageProps{
-  videoId: string
-};
+interface VideoWatchPageProps {
+  videoId: string;
+}
 
 const VideoWatchPage = (props: VideoWatchPageProps) => {
   const nicoContextValue = useContext(NicoContext);
@@ -43,73 +43,72 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
     loaded: 0,
     loop: false,
     playbackRate: 1,
-    comment: true
+    comment: true,
   });
   const playedSeconds = useRef<number>(0);
   const durationSeconds = useRef<number>(0);
   const player = useRef<ReactPlayer>(null);
   const [openVideoConfig, setOpenVideoConfig] = useState(false);
   const [videoConfigAnchorEl, setVideoConfigAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [videoConfig, setVideoConfig] = useState<VideoConfig>({protocol: null, videoSrcIndex: 0});
+  const [videoConfig, setVideoConfig] = useState<VideoConfig>({ protocol: null, videoSrcIndex: 0 });
   const canvas = useRef<HTMLCanvasElement>(null);
   const niconicomments = useRef<NiconiComments>();
   const [comments, setComments] = useState<NvThread[]>([]);
   const handlePlayerReady = () => {
-    if(player.current && niconicomments.current){
+    if (player.current && niconicomments.current) {
       //niconicomments.current.video = player.current.getInternalPlayer() as HTMLVideoElement;
     }
-  }
+  };
   const handlePlayerProgress = (state: OnProgressProps) => {
     playedSeconds.current = state.playedSeconds;
-    setPlayerStatus({...playerStatus, played: state.played, loaded: state.loaded});
-  }
+    setPlayerStatus({ ...playerStatus, played: state.played, loaded: state.loaded });
+  };
   const handlePlayerPlay = (value: boolean) => {
-    setPlayerStatus({...playerStatus, playing: value});
+    setPlayerStatus({ ...playerStatus, playing: value });
   };
   const handlePiP = (value: boolean) => {
-    setPlayerStatus({...playerStatus, pip: value});
+    setPlayerStatus({ ...playerStatus, pip: value });
   };
   const handlePlayerEnded = () => {
-    setPlayerStatus({...playerStatus, playing: playerStatus.loop});
-  }
+    setPlayerStatus({ ...playerStatus, playing: playerStatus.loop });
+  };
   const handlePlayerDuration = (duration: number) => {
     durationSeconds.current = duration;
-  }
+  };
   const handlePlayerPlaybackRateChange = (speed: number) => {
-    setPlayerStatus({...playerStatus, playbackRate: speed});
-  }
+    setPlayerStatus({ ...playerStatus, playbackRate: speed });
+  };
   const handlePlayerCommentVisible = (value: boolean) => {
-    setPlayerStatus({...playerStatus, comment: value});
-  }
+    setPlayerStatus({ ...playerStatus, comment: value });
+  };
   const handlePlayerVolumeChange = (_: Event, value: number | number[]) => {
-    setPlayerStatus({...playerStatus, volume: value as number});
-  }
+    setPlayerStatus({ ...playerStatus, volume: value as number });
+  };
   const handlePlayerMuted = (value: boolean) => {
-    setPlayerStatus({...playerStatus, muted: value});
-  }
+    setPlayerStatus({ ...playerStatus, muted: value });
+  };
   const handlePlayerFullscreen = () => {
-    if(screenfull.isEnabled){
-      if(!screenfull.isFullscreen){
+    if (screenfull.isEnabled) {
+      if (!screenfull.isFullscreen) {
         const videoPlayerEl = document.getElementById("videoPlayer");
-        if(videoPlayerEl){
+        if (videoPlayerEl) {
           screenfull.request(videoPlayerEl);
         }
-      }
-      else{
-        screenfull.exit()
+      } else {
+        screenfull.exit();
       }
     }
-  }
+  };
   const handleControllerSeek = (played: number) => {
     player.current?.seekTo(played);
-  }
+  };
   const formatTime = (s: number) => {
     const minutes = Math.floor(s / 60);
     const seconds = Math.floor(s % 60);
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
-    return formattedMinutes + ':' + formattedSeconds;
-  }
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(seconds).padStart(2, "0");
+    return formattedMinutes + ":" + formattedSeconds;
+  };
   const playedTimeStr = useMemo(() => {
     return formatTime(playedSeconds.current);
   }, [playedSeconds.current]);
@@ -125,23 +124,23 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
     setVideoConfigAnchorEl(null);
   };
   const handleCommentSend = (_no: number, _id: string, _thread: WatchCommentThread) => {
-    (async() => {
-      if(watchData && canvas.current){
+    (async () => {
+      if (watchData && canvas.current) {
         let [_comment, errorCode] = await nicoContextValue.extension.getVideoComments(watchData.comment.nvComment);
-        if(errorCode === "EXPIRED_TOKEN"){
-          const _threadKey = (await nicoContextValue.extension.getVideoCommentThreadkey(_thread.id));
-          if(_threadKey){
+        if (errorCode === "EXPIRED_TOKEN") {
+          const _threadKey = await nicoContextValue.extension.getVideoCommentThreadkey(_thread.id);
+          if (_threadKey) {
             const _wd = watchData;
             _wd.comment.nvComment.threadKey = _threadKey;
             setWatchData(_wd);
             [_comment, errorCode] = await nicoContextValue.extension.getVideoComments(_wd.comment.nvComment);
           }
         }
-        if(errorCode === null){
+        if (errorCode === null) {
           _comment = _comment.map((ct) => {
-            if(ct.fork === _thread.forkLabel && ct.id === _thread.id.toString()){
+            if (ct.fork === _thread.forkLabel && ct.id === _thread.id.toString()) {
               ct.comments = ct.comments.map((c) => {
-                if(c.no === _no && c.id === _id){
+                if (c.no === _no && c.id === _id) {
                   c.commands.push("nico:waku:yellow");
                 }
                 return c;
@@ -151,42 +150,46 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
           });
           setComments(_comment);
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          niconicomments.current = new NiconiComments(canvas.current, _comment as any, {format: "v1"});
+          niconicomments.current = new NiconiComments(canvas.current, _comment as any, { format: "v1" });
           niconicomments.current.drawCanvas(Math.floor(playedSeconds.current * 100));
         }
       }
     })();
-  }
+  };
   useEffect(() => {
     (async () => {
       const _watchData = await nicoContextValue.extension.getVideoWatch(props.videoId, nicoContextValue.isLogin);
       setWatchData(_watchData);
-      if(_watchData && _watchData.media.delivery && canvas.current){
+      if (_watchData && _watchData.media.delivery && canvas.current) {
         document.title = `${_watchData.video.title} | ExNicoWatch`;
         let [_comment, errorCode] = await nicoContextValue.extension.getVideoComments(_watchData.comment.nvComment);
-        if(errorCode === "EXPIRED_TOKEN"){
+        if (errorCode === "EXPIRED_TOKEN") {
           const _thread = _watchData.comment.threads.find((t) => t.isDefaultPostTarget);
-          if(_thread){
-            const _threadKey = (await nicoContextValue.extension.getVideoCommentThreadkey(_thread.id));
-            if(_threadKey){
+          if (_thread) {
+            const _threadKey = await nicoContextValue.extension.getVideoCommentThreadkey(_thread.id);
+            if (_threadKey) {
               _watchData.comment.nvComment.threadKey = _threadKey;
               setWatchData(_watchData);
               [_comment, errorCode] = await nicoContextValue.extension.getVideoComments(_watchData.comment.nvComment);
             }
           }
         }
-        if(errorCode === null){
+        if (errorCode === null) {
           setComments(_comment);
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          niconicomments.current = new NiconiComments(canvas.current, _comment as any, {format: "v1"});
+          niconicomments.current = new NiconiComments(canvas.current, _comment as any, { format: "v1" });
           niconicomments.current.drawCanvas(0);
           const _sendEv = await nicoContextValue.extension.sendVideoWatchEvent(_watchData.media.delivery.trackingId);
           const _protocol = _watchData.media.delivery.movie.session.protocols[0];
-          setVideoConfig({...videoConfig, protocol: _protocol});
-          if(_sendEv){
-            const _session = await nicoContextValue.extension.sendVideoSession(_watchData.media.delivery, _protocol, _watchData.media.delivery.movie.session.videos[videoConfig.videoSrcIndex]);
+          setVideoConfig({ ...videoConfig, protocol: _protocol });
+          if (_sendEv) {
+            const _session = await nicoContextValue.extension.sendVideoSession(
+              _watchData.media.delivery,
+              _protocol,
+              _watchData.media.delivery.movie.session.videos[videoConfig.videoSrcIndex]
+            );
             session.current = _session;
-            setPlayerStatus({...playerStatus, url: _session?.content_uri});
+            setPlayerStatus({ ...playerStatus, url: _session?.content_uri });
           }
         }
       }
@@ -194,12 +197,12 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   }, []);
   useEffect(() => {
     const sessionIntervalId = setInterval(async () => {
-      if(session.current){
+      if (session.current) {
         const _session = await nicoContextValue.extension.putVideoSession(session.current);
         session.current = _session;
         setPlayerStatus((_s) => {
-          if(_s.url !== _session?.content_uri){
-            return {..._s, url: _session?.content_uri};
+          if (_s.url !== _session?.content_uri) {
+            return { ..._s, url: _session?.content_uri };
           }
           return _s;
         });
@@ -209,7 +212,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
   }, []);
   useEffect(() => {
     const commentRendererIntervalId = setInterval(() => {
-      if(niconicomments.current && playerStatus.comment){
+      if (niconicomments.current && playerStatus.comment) {
         niconicomments.current.drawCanvas(Math.floor(playedSeconds.current * 100));
       }
     }, 1000 / 60);
@@ -223,7 +226,9 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
       <Box className={Styled.playerSection}>
         {watchData && (
           <div className={Styled.videoDetail}>
-            <Typography className={Styled.videoTitle} variant="h6" component="h1">{watchData?.video.title}</Typography>
+            <Typography className={Styled.videoTitle} variant="h6" component="h1">
+              {watchData?.video.title}
+            </Typography>
             <div className={Styled.videoMeta}>
               <div className={Styled.videoMetaCount}>
                 <PlayArrowIcon />
@@ -237,11 +242,9 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
                 <FolderIcon />
                 {watchData.video.count.mylist.toLocaleString()}
               </div>
+              <div>{dayjs(watchData.video.registeredAt).format("YYYY/MM/DD HH:mm:ss")}</div>
               <div>
-                {dayjs(watchData.video.registeredAt).format('YYYY/MM/DD HH:mm:ss')}
-              </div>
-              <div>
-                <Link to={"/genre/"+watchData.genre.key}>{watchData.genre.label}</Link>
+                <Link to={"/genre/" + watchData.genre.key}>{watchData.genre.label}</Link>
               </div>
             </div>
           </div>
@@ -269,29 +272,27 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
               onPlaybackRateChange={handlePlayerPlaybackRateChange}
               progressInterval={1000 / 60}
             />
-            <canvas hidden={!playerStatus.comment} className={Styled.commentCanvas} width={1920} height={1080} ref={canvas}></canvas>
+            <canvas
+              hidden={!playerStatus.comment}
+              className={Styled.commentCanvas}
+              width={1920}
+              height={1080}
+              ref={canvas}
+            ></canvas>
             <div className={`${Styled.playerControler} ${playerStatus.playing ? "" : Styled.playPause}`}>
-              <PlayerSlider
-                played={playerStatus.played}
-                loaded={playerStatus.loaded}
-                onChange={handleControllerSeek}
-              />
+              <PlayerSlider played={playerStatus.played} loaded={playerStatus.loaded} onChange={handleControllerSeek} />
               <div className={Styled.controlerContainer}>
                 <div className={Styled.controlerLeft}>
-                  <IconButton size="small" onClick={() => handlePlayerPlay(!playerStatus.playing)} title={playerStatus.playing ? "停止" : "再生"}>
-                    {playerStatus.playing ? (
-                      <PauseIcon />
-                    ) : (
-                      <PlayArrowIcon />
-                    )}
+                  <IconButton
+                    size="small"
+                    onClick={() => handlePlayerPlay(!playerStatus.playing)}
+                    title={playerStatus.playing ? "停止" : "再生"}
+                  >
+                    {playerStatus.playing ? <PauseIcon /> : <PlayArrowIcon />}
                   </IconButton>
                   <div className={Styled.playerVolumeContainer}>
                     <IconButton size="small" onClick={() => handlePlayerMuted(!playerStatus.muted)}>
-                      {playerStatus.muted ? (
-                        <VolumeOffIcon />
-                      ) : (
-                        <VolumeUpIcon />
-                      )}
+                      {playerStatus.muted ? <VolumeOffIcon /> : <VolumeUpIcon />}
                     </IconButton>
                     <Slider
                       size="small"
@@ -309,33 +310,43 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
                   {durationTimeStr}
                 </div>
                 <div className={Styled.controlerRight}>
-                  <IconButton size="small" onClick={() => handlePlayerCommentVisible(!playerStatus.comment)} title={playerStatus.comment ? "コメントを消す" : "コメントを表示"}>
-                    {playerStatus.comment ? (
-                      <CommentIcon />
-                    ) : (
-                      <CommentsDisabledIcon />
-                    )}
+                  <IconButton
+                    size="small"
+                    onClick={() => handlePlayerCommentVisible(!playerStatus.comment)}
+                    title={playerStatus.comment ? "コメントを消す" : "コメントを表示"}
+                  >
+                    {playerStatus.comment ? <CommentIcon /> : <CommentsDisabledIcon />}
                   </IconButton>
                   <IconButton size="small" onClick={() => handlePiP(true)} title="ピクチャーインピクチャー">
                     <PictureInPictureAltIcon />
                   </IconButton>
-                  <IconButton size="small" onClick={() => handlePlayerFullscreen()} title={screenfull.isFullscreen ? "フルスクリーン解除" : "フルスクリーン"}>
-                    {screenfull.isFullscreen ? (
-                      <CloseFullscreenIcon />
-                    ) : (
-                      <OpenInFullIcon />
-                    )}
+                  <IconButton
+                    size="small"
+                    onClick={() => handlePlayerFullscreen()}
+                    title={screenfull.isFullscreen ? "フルスクリーン解除" : "フルスクリーン"}
+                  >
+                    {screenfull.isFullscreen ? <CloseFullscreenIcon /> : <OpenInFullIcon />}
                   </IconButton>
                   <IconButton size="small" onClick={handleVideoConfigOpen} title="設定">
                     <SettingsIcon />
                   </IconButton>
-                  <VideoPlayerConfig isOpen={openVideoConfig} setIsOpen={setOpenVideoConfig} anchorEl={videoConfigAnchorEl} onClose={handleVideoConfigClose} />
+                  <VideoPlayerConfig
+                    isOpen={openVideoConfig}
+                    setIsOpen={setOpenVideoConfig}
+                    anchorEl={videoConfigAnchorEl}
+                    onClose={handleVideoConfigClose}
+                  />
                 </div>
               </div>
             </div>
           </div>
-          {(watchData && watchData.viewer) && (
-            <CommentSender playedSeconds={playedSeconds.current} videoId={watchData.video.id} thread={watchData.comment.threads.find((t) => t.isDefaultPostTarget)} onCommentSend={handleCommentSend} />
+          {watchData && watchData.viewer && (
+            <CommentSender
+              playedSeconds={playedSeconds.current}
+              videoId={watchData.video.id}
+              thread={watchData.comment.threads.find((t) => t.isDefaultPostTarget)}
+              onCommentSend={handleCommentSend}
+            />
           )}
         </div>
         {watchData && (
@@ -343,23 +354,23 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
             <div className={Styled.videoTags}>
               {watchData.tag.items.map((t, i) => (
                 <div key={i} className={`${Styled.videoTag} ${t.isLocked ? Styled.tagLocked : ""}`}>
-                  <Link to={"/tag/"+t.name}>{t.name}</Link>
+                  <Link to={"/tag/" + t.name}>{t.name}</Link>
                   {t.isNicodicArticleExists && (
                     <span className={Styled.tagDictionary}>
-                      <a target="_blank" rel="noreferrer noopener" href={"https://dic.nicovideo.jp/a/"+t.name}>百</a>
+                      <a target="_blank" rel="noreferrer noopener" href={"https://dic.nicovideo.jp/a/" + t.name}>
+                        百
+                      </a>
                     </span>
                   )}
                 </div>
               ))}
             </div>
-            <div className={Styled.videoDescription}>
-              {htmlParse(watchData.video.description)}
-            </div>
+            <div className={Styled.videoDescription}>{htmlParse(watchData.video.description)}</div>
           </div>
         )}
       </Box>
       <Box className={Styled.subSection}>
-        {(watchData && watchData.owner) && (
+        {watchData && watchData.owner && (
           <div className={Styled.ownerDetail}>
             <Link to={`/user/${watchData.owner.id}`}>
               <img src={watchData.owner.iconUrl} alt="OwnerIcon" />
@@ -367,7 +378,9 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
             </Link>
             {watchData.owner.viewer && (
               <>
-                <Button className={Styled.supportBtn} variant="outlined">クリサポ</Button>
+                <Button className={Styled.supportBtn} variant="outlined">
+                  クリサポ
+                </Button>
                 {watchData.owner.viewer.isFollowing ? (
                   <Button variant="contained">フォロー解除</Button>
                 ) : (
@@ -377,12 +390,10 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
             )}
           </div>
         )}
-        {comments.length >= 2 && (
-          <VideoCommentContainer thread={comments} />
-        )}
+        {comments.length >= 2 && <VideoCommentContainer thread={comments} />}
       </Box>
     </div>
-  )
+  );
 };
 
 export default VideoWatchPage;

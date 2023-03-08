@@ -29,10 +29,10 @@ const Layout = () => {
       try {
         await nicoContext.extension.initialize();
         const [user, isLogin] = await nicoContext.extension.getOwnUser();
-        setNicoContext({...nicoContext, isLogin: isLogin, loaded: true, loginUser: user});
+        setNicoContext({ ...nicoContext, isLogin: isLogin, loaded: true, loginUser: user });
       } catch (error) {
         console.error(error);
-        setNicoContext({...nicoContext, loaded: true});
+        setNicoContext({ ...nicoContext, loaded: true });
       }
     })();
   }, []);

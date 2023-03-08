@@ -8,454 +8,454 @@ interface WatchAPIResponse<T> {
 
 interface WatchData {
   ads: {
-    isAvailable: boolean
-  } | null
-  category: null,
-  channel: WatchChannel | null,
-  client: WatchClient,
-  comment: WatchComment,
-  community: WatchCommunity | null
-  easyComment: WatchEasyComments,
+    isAvailable: boolean;
+  } | null;
+  category: null;
+  channel: WatchChannel | null;
+  client: WatchClient;
+  comment: WatchComment;
+  community: WatchCommunity | null;
+  easyComment: WatchEasyComments;
   external: {
     commons: {
-      hasContentTree: boolean
-    }
+      hasContentTree: boolean;
+    };
     ichiba: {
-      isEnabled: boolean
-    }
-  } | null,
-  genre: WatchGenre,
+      isEnabled: boolean;
+    };
+  } | null;
+  genre: WatchGenre;
   marquee: {
-    isDisabled: boolean
-    tagRelatedLead: null
-  } | null,
-  media: WatchMedia,
-  okReason: string
-  owner: WatchOwner | null
-  payment: WatchPayment
-  pcWatchPage: null
-  player: WatchPlayer
+    isDisabled: boolean;
+    tagRelatedLead: null;
+  } | null;
+  media: WatchMedia;
+  okReason: string;
+  owner: WatchOwner | null;
+  payment: WatchPayment;
+  pcWatchPage: null;
+  player: WatchPlayer;
   ppv: {
-    accessFrom: string | null
-  } | null
-  ranking: WatchRanking
-  series: WatchSeries | null
-  smartphone: null
+    accessFrom: string | null;
+  } | null;
+  ranking: WatchRanking;
+  series: WatchSeries | null;
+  smartphone: null;
   system: {
-    serverTime: string
-    isPeakTime: boolean
-  }
-  tag: WatchTags
-  video: WatchVideo
-  videoAds: WatchVideoAds
+    serverTime: string;
+    isPeakTime: boolean;
+  };
+  tag: WatchTags;
+  video: WatchVideo;
+  videoAds: WatchVideoAds;
   videoLive: {
-    programId: string
-    beginAt: string
-    endAt: string
-  } | null
-  viewer: WatchViewer | null
-  waku: null
+    programId: string;
+    beginAt: string;
+    endAt: string;
+  } | null;
+  viewer: WatchViewer | null;
+  waku: null;
 }
 
-interface WatchChannel{
-  id: string
-  name: string
-  isOfficialAnime: boolean
-  isDisplayAdBanner: boolean
+interface WatchChannel {
+  id: string;
+  name: string;
+  isOfficialAnime: boolean;
+  isDisplayAdBanner: boolean;
   thumbnail: {
-    url: string
-    smallUrl: string
-  }
+    url: string;
+    smallUrl: string;
+  };
   viewer: {
     follow: {
-      isFollowed: boolean
-      isBookmarked: boolean
-      token: string
-      tokenTimestamp: number
-    }
-  }
+      isFollowed: boolean;
+      isBookmarked: boolean;
+      token: string;
+      tokenTimestamp: number;
+    };
+  };
 }
 
-interface WatchClient{
-  nicosid: string
-  watchId: string
-  watchTrackId: string
+interface WatchClient {
+  nicosid: string;
+  watchId: string;
+  watchTrackId: string;
 }
 
-interface WatchComment{
+interface WatchComment {
   server: {
-    url: string
-  }
+    url: string;
+  };
   keys: {
-    userKey: string
-  }
-  layers: WatchCommentLayer[]
-  threads: WatchCommentThread[]
+    userKey: string;
+  };
+  layers: WatchCommentLayer[];
+  threads: WatchCommentThread[];
   ng: {
     ngScore: {
-      isDisabled: boolean
-    }
-    channel: []
-    owner: []
+      isDisabled: boolean;
+    };
+    channel: [];
+    owner: [];
     viewer: {
-      revision: number
-      count: number
+      revision: number;
+      count: number;
       items: {
-        type: string
-        source: string
-        registeredAt: string
-      }[]
-    }
-  }
-  isAttentionRequired: boolean
-  nvComment: WatchNvComment
+        type: string;
+        source: string;
+        registeredAt: string;
+      }[];
+    };
+  };
+  isAttentionRequired: boolean;
+  nvComment: WatchNvComment;
 }
 
-interface WatchCommentLayer{
-  index: number
-  isTranslucent: boolean
+interface WatchCommentLayer {
+  index: number;
+  isTranslucent: boolean;
   threadIds: {
-    id: number
-    fork: number
-    forkLabel: string
-  }[]
+    id: number;
+    fork: number;
+    forkLabel: string;
+  }[];
 }
 
-interface WatchCommentThread{
-  id: number
-  fork: number
-  forkLabel: string
-  videoId: string
-  isActive: boolean
-  isDefaultPostTarget: boolean
-  isEasyCommentPostTarget: boolean
-  isLeafRequired: boolean
-  isOwnerThread: boolean
-  isThreadkeyRequired: boolean
+interface WatchCommentThread {
+  id: number;
+  fork: number;
+  forkLabel: string;
+  videoId: string;
+  isActive: boolean;
+  isDefaultPostTarget: boolean;
+  isEasyCommentPostTarget: boolean;
+  isLeafRequired: boolean;
+  isOwnerThread: boolean;
+  isThreadkeyRequired: boolean;
   threadkey: string | null;
-  is184Forced: boolean
+  is184Forced: boolean;
   hasNicoscript: boolean;
-  label: string
-  postkeyStatus: number
-  server: string
+  label: string;
+  postkeyStatus: number;
+  server: string;
 }
 
-interface WatchNvComment{
-  threadKey: string
-  server: string
+interface WatchNvComment {
+  threadKey: string;
+  server: string;
   params: {
-    targets: WatchNvCommentTarget[]
-    language: string
-  }
+    targets: WatchNvCommentTarget[];
+    language: string;
+  };
 }
 
-interface WatchNvCommentTarget{
-  id: string
-  fork: string
+interface WatchNvCommentTarget {
+  id: string;
+  fork: string;
 }
 
-interface WatchCommunity{
+interface WatchCommunity {
   main: {
-    id: string
-    name: string
-  }
+    id: string;
+    name: string;
+  };
   belong: {
-    id: string
-    name: string
-  }
+    id: string;
+    name: string;
+  };
 }
 
-interface WatchEasyComments{
-  phrases: WatchEasyComment[]
+interface WatchEasyComments {
+  phrases: WatchEasyComment[];
 }
 
-interface WatchEasyComment{
-  text: string
+interface WatchEasyComment {
+  text: string;
   nicodic: {
-    title: string
-    viewTitle: string
-    summary: string
-    link: string
-  }
+    title: string;
+    viewTitle: string;
+    summary: string;
+    link: string;
+  };
 }
 
-interface WatchGenre{
-  key: string
-  label: string
-  isImmoral: boolean
-  isDisabled: boolean
-  isNotSet: boolean
+interface WatchGenre {
+  key: string;
+  label: string;
+  isImmoral: boolean;
+  isDisabled: boolean;
+  isNotSet: boolean;
 }
 
-interface WatchMedia{
-  delivery: WatchMediaDelivery | null
-  deliveryLegacy: null
+interface WatchMedia {
+  delivery: WatchMediaDelivery | null;
+  deliveryLegacy: null;
 }
 
-interface WatchMediaDelivery{
-  recipeId: string
-  encryption: null
+interface WatchMediaDelivery {
+  recipeId: string;
+  encryption: null;
   movie: {
-    contentId: string
-    audios: WatchMediaDeliveryAudio[]
-    videos: WatchMediaDeliveryVideo[]
-    session: WatchMediaDeliverySession
-  }
+    contentId: string;
+    audios: WatchMediaDeliveryAudio[];
+    videos: WatchMediaDeliveryVideo[];
+    session: WatchMediaDeliverySession;
+  };
   storyboard: {
-    contentId: string
+    contentId: string;
     images: {
-      id: string
-    }[]
-    session: WatchMediaDeliverySession
-  }
-  trackingId: string
+      id: string;
+    }[];
+    session: WatchMediaDeliverySession;
+  };
+  trackingId: string;
 }
 
-interface WatchMediaDeliveryAudio{
-  id: string
-  isAvailable: boolean
+interface WatchMediaDeliveryAudio {
+  id: string;
+  isAvailable: boolean;
   metadata: {
-    bitrate: number
-    samplingRate: number
+    bitrate: number;
+    samplingRate: number;
     loudness: {
-      integratedLoudness: number
-      truePeak: number
-    }
-    levelIndex: number
+      integratedLoudness: number;
+      truePeak: number;
+    };
+    levelIndex: number;
     loudnessCollection: {
-      type: string
-      value: number
-    }[]
-  }
+      type: string;
+      value: number;
+    }[];
+  };
 }
 
-interface WatchMediaDeliveryVideo{
-  id: string
-  isAvailable: boolean
+interface WatchMediaDeliveryVideo {
+  id: string;
+  isAvailable: boolean;
   metadata: {
-    label: string
-    bitrate: number
+    label: string;
+    bitrate: number;
     resolution: {
-      width: number
-      height: number
-    }
-    levelIndex: number
-    recommendedHighestAudioLevelIndex: number
-  }
+      width: number;
+      height: number;
+    };
+    levelIndex: number;
+    recommendedHighestAudioLevelIndex: number;
+  };
 }
 
-interface WatchMediaDeliverySession{
-  recipeId: string
-  playerId: string
-  videos: string[]
-  audios: string[]
-  movies: []
-  protocols: ("hls" | "http")[]
-  authTypes: {[key: string]: string}
-  serviceUserId: string
-  token: string
-  signature: string
-  contentId: string
-  heartbeatLifetime: number
-  contentKeyTimeout: number
-  priority: number
-  transferPresets: string[]
+interface WatchMediaDeliverySession {
+  recipeId: string;
+  playerId: string;
+  videos: string[];
+  audios: string[];
+  movies: [];
+  protocols: ("hls" | "http")[];
+  authTypes: { [key: string]: string };
+  serviceUserId: string;
+  token: string;
+  signature: string;
+  contentId: string;
+  heartbeatLifetime: number;
+  contentKeyTimeout: number;
+  priority: number;
+  transferPresets: string[];
   urls: {
-    url: string
-    isWellKnownPort: boolean
-    isSsl: boolean
-  }[]
+    url: string;
+    isWellKnownPort: boolean;
+    isSsl: boolean;
+  }[];
 }
 
-interface WatchOwner{
-  id: number
-  nickname: string
-  iconUrl: string
+interface WatchOwner {
+  id: number;
+  nickname: string;
+  iconUrl: string;
   channel: {
-    id: string
-    name: string
-    url: string
-  } | null
+    id: string;
+    name: string;
+    url: string;
+  } | null;
   live: {
-    id: string
-    title: string
-    url: string
-    begunAt: string
-    isVideoLive: boolean
+    id: string;
+    title: string;
+    url: string;
+    begunAt: string;
+    isVideoLive: boolean;
     videoLiveOnAirStartTime: string | null;
     thumbnailUrl: string | null;
-  } | null
-  isVideosPublic: boolean
-  isMylistsPublic: boolean
-  videoLiveNotice: null
+  } | null;
+  isVideosPublic: boolean;
+  isMylistsPublic: boolean;
+  videoLiveNotice: null;
   viewer: {
-    isFollowing: boolean
-  } | null
+    isFollowing: boolean;
+  } | null;
 }
 
-interface WatchPayment{
+interface WatchPayment {
   video: {
-    isPpv: boolean
-    isAdmission: boolean
-    isContinuationBenefit: boolean
-    isPremium: boolean
-    watchableUserType: string
-    commentableUserType: string
-  }
+    isPpv: boolean;
+    isAdmission: boolean;
+    isContinuationBenefit: boolean;
+    isPremium: boolean;
+    watchableUserType: string;
+    commentableUserType: string;
+  };
   preview: {
     ppv: {
-      isEnabled: boolean
-    }
+      isEnabled: boolean;
+    };
     admission: {
-      isEnabled: boolean
-    }
+      isEnabled: boolean;
+    };
     continuationBenefit: {
-      isEnabled: boolean
-    }
+      isEnabled: boolean;
+    };
     premium: {
-      isEnabled: boolean
-    }
-  }
+      isEnabled: boolean;
+    };
+  };
 }
 
-interface WatchPlayer{
+interface WatchPlayer {
   initialPlayback: {
-    type: string
-    positionSec: number
-  } | null
+    type: string;
+    positionSec: number;
+  } | null;
   comment: {
-    isDefaultInvisible: boolean
-  }
-  layerMode: number
+    isDefaultInvisible: boolean;
+  };
+  layerMode: number;
 }
 
-interface WatchRanking{
+interface WatchRanking {
   genre: {
-    rank: number
-    genre: string
-    dateTime: string
-  } | null
+    rank: number;
+    genre: string;
+    dateTime: string;
+  } | null;
   popularTag: {
-    tag: string
-    regularizedTag: string
-    rank: number
-    genre: string
-    dateTime: string
-  }[]
+    tag: string;
+    regularizedTag: string;
+    rank: number;
+    genre: string;
+    dateTime: string;
+  }[];
 }
 
-interface WatchSeries{
-  id: number
-  title: string
-  description: string
-  thumbnailUrl: string
+interface WatchSeries {
+  id: number;
+  title: string;
+  description: string;
+  thumbnailUrl: string;
   video: {
-    prev: EssentialVideo | null
-    next: EssentialVideo | null
-    first: EssentialVideo | null
-  }
+    prev: EssentialVideo | null;
+    next: EssentialVideo | null;
+    first: EssentialVideo | null;
+  };
 }
 
-interface WatchTags{
+interface WatchTags {
   items: {
-    name: string
-    isCategory: boolean
-    isCategoryCandidate: boolean
-    isNicodicArticleExists: boolean
-    isLocked: boolean
-  }[]
-  hasR18Tag: boolean
-  isPublishedNicoscript: boolean
+    name: string;
+    isCategory: boolean;
+    isCategoryCandidate: boolean;
+    isNicodicArticleExists: boolean;
+    isLocked: boolean;
+  }[];
+  hasR18Tag: boolean;
+  isPublishedNicoscript: boolean;
   edit: {
-    isEditable:  boolean
-    uneditableReason: string | null
-    editKey: string | null
-  }
+    isEditable: boolean;
+    uneditableReason: string | null;
+    editKey: string | null;
+  };
   viewer: {
-    isEditable: boolean
-    uneditableReason: string | null
-    editKey: string | null
-  } | null
+    isEditable: boolean;
+    uneditableReason: string | null;
+    editKey: string | null;
+  } | null;
 }
 
-interface WatchVideo{
-  id: string
-  title: string
-  description: string
+interface WatchVideo {
+  id: string;
+  title: string;
+  description: string;
   count: {
-    view: number
-    comment: number
-    mylist: number
-    like: number
-  }
-  duration: number
+    view: number;
+    comment: number;
+    mylist: number;
+    like: number;
+  };
+  duration: number;
   thumbnail: {
-    url: string
-    middleUrl: string
-    largeUrl: string
-    player: string
-    ogp: string
-  }
+    url: string;
+    middleUrl: string;
+    largeUrl: string;
+    player: string;
+    ogp: string;
+  };
   rating: {
-    isAdult: boolean
-  }
-  registeredAt: string
-  isPrivate: boolean
-  isDeleted: boolean
-  isNoBanner: boolean
-  isAuthenticationRequired: boolean
-  isEmbedPlayerAllowed: boolean
-  isGiftAllowed: boolean
+    isAdult: boolean;
+  };
+  registeredAt: string;
+  isPrivate: boolean;
+  isDeleted: boolean;
+  isNoBanner: boolean;
+  isAuthenticationRequired: boolean;
+  isEmbedPlayerAllowed: boolean;
+  isGiftAllowed: boolean;
   viewer: {
-    isOwner: boolean
+    isOwner: boolean;
     like: {
-      isLiked: boolean
-      count: null
-    }
-  } | null
-  watchableUserTypeForPayment: string
-  commentableUserTypeForPayment: string
+      isLiked: boolean;
+      count: null;
+    };
+  } | null;
+  watchableUserTypeForPayment: string;
+  commentableUserTypeForPayment: string;
 }
 
-interface WatchVideoAds{
+interface WatchVideoAds {
   additionalParams: {
-    videoId: string
-    videoDuration: number
-    isAdultRatingNG: boolean
-    isAuthenticationRequired: boolean
-    isR18: boolean
-    nicosid: string
-    lang: string
-    watchTrackId: string
-    genre?: string
-    gender?: string
-    age?: number
-  }
-  reason: string | null
+    videoId: string;
+    videoDuration: number;
+    isAdultRatingNG: boolean;
+    isAuthenticationRequired: boolean;
+    isR18: boolean;
+    nicosid: string;
+    lang: string;
+    watchTrackId: string;
+    genre?: string;
+    gender?: string;
+    age?: number;
+  };
+  reason: string | null;
   items: {
-    type: string
-    timingMs: number | null
+    type: string;
+    timingMs: number | null;
     additionalParams: {
-      linearType: string
-      adIdx: number
-      skipType: number
-      skippableType: number
-      pod: number
-    }
-  }[]
+      linearType: string;
+      adIdx: number;
+      skipType: number;
+      skippableType: number;
+      pod: number;
+    };
+  }[];
 }
 
-interface WatchViewer{
-  id: number
-  nickname: string
-  isPremium: boolean
+interface WatchViewer {
+  id: number;
+  nickname: string;
+  isPremium: boolean;
   existence: {
-    age: number
-    prefecture: string
-    sex: string
-  }
+    age: number;
+    prefecture: string;
+    sex: string;
+  };
 }
 
-interface UserFollow{
-  following: boolean
+interface UserFollow {
+  following: boolean;
 }

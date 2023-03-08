@@ -5,9 +5,9 @@ import LiveWatchPage from "../live/LiveWatchPage";
 import VideoWatchPage from "../video/VideoWatchPage";
 import Styled from "./WatchPage.module.scss";
 
-const NotFoundError = (props: {errorMessage?: string}) => {
+const NotFoundError = (props: { errorMessage?: string }) => {
   return (
-    <Box sx={{marginLeft: 3}}>
+    <Box sx={{ marginLeft: 3 }}>
       <h1>Not Found</h1>
       <h3>{props.errorMessage || "コンテンツが見つかりません"}</h3>
     </Box>
@@ -17,11 +17,10 @@ const NotFoundError = (props: {errorMessage?: string}) => {
 const WatchPage = () => {
   const { watchId } = useParams();
   const service = useMemo(() => {
-    if(!watchId) return "unknown";
-    if(/(?:sm|nm|so|ca|ax|yo|nl|ig|na|cw|z[a-e]|om|sk|yk)\d{1,14}\b/.test(watchId)){
+    if (!watchId) return "unknown";
+    if (/(?:sm|nm|so|ca|ax|yo|nl|ig|na|cw|z[a-e]|om|sk|yk)\d{1,14}\b/.test(watchId)) {
       return "video";
-    }
-    else if(/(?:lv)\d{1,14}\b/.test(watchId)){
+    } else if (/(?:lv)\d{1,14}\b/.test(watchId)) {
       return "live";
     }
     return "unknown";
@@ -29,21 +28,17 @@ const WatchPage = () => {
   return (
     <div className={Styled.watchPage}>
       <div className={Styled.watchPageInner}>
-        {(service === "unknown" || !watchId) ? (
+        {service === "unknown" || !watchId ? (
           <NotFoundError />
         ) : (
           <>
-            {service === "video" && (
-              <VideoWatchPage videoId={watchId} />
-            )}
-            {service === "live" && (
-              <LiveWatchPage liveId={watchId} />
-            )}
+            {service === "video" && <VideoWatchPage videoId={watchId} />}
+            {service === "live" && <LiveWatchPage liveId={watchId} />}
           </>
         )}
       </div>
     </div>
   );
-}
+};
 
 export default WatchPage;

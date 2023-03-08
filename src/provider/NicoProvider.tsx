@@ -1,5 +1,5 @@
-import React, { createContext, ReactNode } from 'react';
-import Extension from '../libs/extension';
+import React, { createContext, ReactNode } from "react";
+import Extension from "../libs/extension";
 
 interface NicoProviderProps {
   children: ReactNode;

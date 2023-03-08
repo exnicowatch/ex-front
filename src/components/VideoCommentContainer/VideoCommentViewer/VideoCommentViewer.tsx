@@ -1,31 +1,33 @@
 import { Box, IconButton } from "@mui/material";
 import React, { useEffect, useMemo, useState } from "react";
-import DataGrid, { Column, SortColumn } from 'react-data-grid';
-import dayjs from 'dayjs';
-import MoodIcon from '@mui/icons-material/Mood';
-import 'react-data-grid/lib/styles.css';
+import DataGrid, { Column, SortColumn } from "react-data-grid";
+import dayjs from "dayjs";
+import MoodIcon from "@mui/icons-material/Mood";
+import "react-data-grid/lib/styles.css";
 import Styled from "./VideoCommentViewer.module.scss";
 
-interface VideoCommentViewerProps{
+interface VideoCommentViewerProps {
   thread: NvThread;
 }
 
-interface Row{
-  no: number
-  body: string
-  nicoru: number
-  playAt: number
-  postAt: string
+interface Row {
+  no: number;
+  body: string;
+  nicoru: number;
+  playAt: number;
+  postAt: string;
 }
 
-function rowKeyGetter(row: Row){
+function rowKeyGetter(row: Row) {
   return row.no;
 }
 
-function vposMs2time(vposMs: number){
+function vposMs2time(vposMs: number) {
   const seconds = Math.floor(vposMs / 1000);
   const minutes = Math.floor(seconds / 60);
-  return `${minutes.toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}.${(vposMs / 10 % 100).toString().padStart(2, '0')}`;
+  return `${minutes.toString().padStart(2, "0")}:${(seconds % 60).toString().padStart(2, "0")}.${((vposMs / 10) % 100)
+    .toString()
+    .padStart(2, "0")}`;
 }
 
 const columns: readonly Column<Row>[] = [
@@ -34,7 +36,7 @@ const columns: readonly Column<Row>[] = [
     name: "コメ番",
     width: 75,
     resizable: true,
-    minWidth: 30
+    minWidth: 30,
   },
   {
     key: "body",
@@ -42,7 +44,7 @@ const columns: readonly Column<Row>[] = [
     width: 240,
     resizable: true,
     formatter(props) {
-      return <span title={props.row.body}>{props.row.body}</span>
+      return <span title={props.row.body}>{props.row.body}</span>;
     },
   },
   {
@@ -59,8 +61,8 @@ const columns: readonly Column<Row>[] = [
           </IconButton>
           <span>{props.row.nicoru}</span>
         </div>
-      )
-    }
+      );
+    },
   },
   {
     key: "playAt",
@@ -68,9 +70,9 @@ const columns: readonly Column<Row>[] = [
     width: 80,
     resizable: true,
     formatter(props) {
-      return <>{vposMs2time(props.row.playAt)}</>
+      return <>{vposMs2time(props.row.playAt)}</>;
     },
-    minWidth: 30
+    minWidth: 30,
   },
   {
     key: "postAt",
@@ -78,24 +80,24 @@ const columns: readonly Column<Row>[] = [
     width: 150,
     resizable: true,
     formatter(props) {
-      return <>{dayjs(props.row.postAt).format('YYYY/MM/DD HH:mm:ss')}</>
+      return <>{dayjs(props.row.postAt).format("YYYY/MM/DD HH:mm:ss")}</>;
     },
-    minWidth: 30
+    minWidth: 30,
   },
-]
+];
 
-function comment2row(c: NvComment): Row{
+function comment2row(c: NvComment): Row {
   return {
     no: c.no,
     body: c.body,
     nicoru: c.nicoruCount,
     playAt: c.vposMs,
-    postAt: c.postedAt
-  }
+    postAt: c.postedAt,
+  };
 }
 
 type Comparator = (a: Row, b: Row) => number;
-function getComparator(sortColumn: string): Comparator{
+function getComparator(sortColumn: string): Comparator {
   switch (sortColumn) {
     case "no":
     case "nicoru":
@@ -118,7 +120,7 @@ function getComparator(sortColumn: string): Comparator{
 
 const VideoCommentViewer = (props: VideoCommentViewerProps) => {
   const [rows, setRows] = useState<Row[]>([]);
-  const [sortColumns, setSortColumns] = useState<readonly SortColumn[]>([{columnKey: "playAt", direction: "ASC"}]);
+  const [sortColumns, setSortColumns] = useState<readonly SortColumn[]>([{ columnKey: "playAt", direction: "ASC" }]);
   const sortedRows = useMemo((): readonly Row[] => {
     if (sortColumns.length === 0) return rows;
     return [...rows].sort((a, b) => {
@@ -126,7 +128,7 @@ const VideoCommentViewer = (props: VideoCommentViewerProps) => {
         const comparator = getComparator(sort.columnKey);
         const compResult = comparator(a, b);
         if (compResult !== 0) {
-          return sort.direction === 'ASC' ? compResult : -compResult;
+          return sort.direction === "ASC" ? compResult : -compResult;
         }
       }
       return 0;
@@ -141,7 +143,7 @@ const VideoCommentViewer = (props: VideoCommentViewerProps) => {
         className={Styled.commentGrid}
         defaultColumnOptions={{
           sortable: true,
-          resizable: true
+          resizable: true,
         }}
         rowHeight={22}
         columns={columns}
@@ -151,7 +153,7 @@ const VideoCommentViewer = (props: VideoCommentViewerProps) => {
         rowKeyGetter={rowKeyGetter}
       />
     </Box>
-  )
+  );
 };
 
 export default VideoCommentViewer;

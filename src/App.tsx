@@ -8,7 +8,7 @@ import WatchPage from "./pages/watch/WatchPage";
 
 const NotFoundError = () => {
   return (
-    <Box sx={{marginLeft: 3}}>
+    <Box sx={{ marginLeft: 3 }}>
       <h1>Not Found</h1>
       <h3>ページが見つかりません</h3>
     </Box>

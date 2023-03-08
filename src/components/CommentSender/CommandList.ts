@@ -201,6 +201,6 @@ const Commands: commandList = [
       value: "invisible",
       group: "invisible",
     },
-  ]
+  ],
 ];
 export { Commands };

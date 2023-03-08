@@ -2,11 +2,11 @@ import { Box, Popover } from "@mui/material";
 import React from "react";
 import Styled from "./VideoPlayerConfig.module.scss";
 
-interface VideoPlayerConfigProps{
-  isOpen: boolean,
-  setIsOpen: (v: boolean) => void,
-  onClose: () => void,
-  anchorEl: HTMLButtonElement | null
+interface VideoPlayerConfigProps {
+  isOpen: boolean;
+  setIsOpen: (v: boolean) => void;
+  onClose: () => void;
+  anchorEl: HTMLButtonElement | null;
 }
 
 const VideoPlayerConfig = (props: VideoPlayerConfigProps) => {
@@ -15,21 +15,19 @@ const VideoPlayerConfig = (props: VideoPlayerConfigProps) => {
       open={props.isOpen}
       anchorEl={props.anchorEl}
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
+        vertical: "top",
+        horizontal: "right",
       }}
       transformOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right',
+        vertical: "bottom",
+        horizontal: "right",
       }}
       onClose={props.onClose}
       className={Styled.videoPlayerConfig}
     >
-      <Box>
-        Config
-      </Box>
+      <Box>Config</Box>
     </Popover>
-  )
-}
+  );
+};
 
 export default VideoPlayerConfig;

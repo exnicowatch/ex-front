@@ -2,7 +2,7 @@ import { AppBar, Avatar, Button, Container, IconButton, Toolbar, Typography } fr
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { NicoContext } from "../provider/NicoProvider";
-import DehazeIcon from '@mui/icons-material/Dehaze';
+import DehazeIcon from "@mui/icons-material/Dehaze";
 import Styled from "./Header.module.scss";
 import UserMenu from "../components/UserMenu/UserMenu";
 
@@ -17,7 +17,7 @@ const Header = () => {
   const handleUserMenuClose = () => {
     setOpenUserMenu(false);
     setUserMenuAnchorEl(null);
-  }
+  };
   return (
     <AppBar position="fixed" className={Styled.header}>
       <Container className={Styled.headerCnt}>
@@ -25,13 +25,7 @@ const Header = () => {
           <IconButton>
             <DehazeIcon />
           </IconButton>
-          <Typography
-            className={Styled.logoTitle}
-            variant="h5"
-            noWrap
-            component={Link}
-            to="/"
-          >
+          <Typography className={Styled.logoTitle} variant="h5" noWrap component={Link} to="/">
             ExNicoWatch
           </Typography>
           <div style={{ flexGrow: 1 }}></div>
@@ -40,10 +34,17 @@ const Header = () => {
               <button className={Styled.iconBtn} onClick={handleUserMenuClick}>
                 <Avatar src={nicoContextValue.loginUser?.icons.large} alt="UserIcon" />
               </button>
-              <UserMenu anchorEl={userMenuAnchorEl} isOpen={openUserMenu} onClose={handleUserMenuClose} setIsOpen={setOpenUserMenu} />
+              <UserMenu
+                anchorEl={userMenuAnchorEl}
+                isOpen={openUserMenu}
+                onClose={handleUserMenuClose}
+                setIsOpen={setOpenUserMenu}
+              />
             </>
           ) : (
-            <Button variant="outlined" href="https://account.nicovideo.jp/login" target="_blank">ログイン</Button>
+            <Button variant="outlined" href="https://account.nicovideo.jp/login" target="_blank">
+              ログイン
+            </Button>
           )}
         </Toolbar>
       </Container>
