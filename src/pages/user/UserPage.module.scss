@@ -1,0 +1,133 @@
+.userPage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .userCoverImage{
+    width: 100%;
+    img{
+      width: 100%;
+      user-select: none;
+      user-drag: none;
+      -webkit-user-drag: none;
+    }
+    .userCoverMargin{
+      width: 100%;
+      height: 40px;
+    }
+  }
+  .userProfile{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    max-width: 1300px;
+    margin-top: 15px;
+    gap: 10px;
+    .userIcon{
+      width: 150px;
+      img{
+        width: 100%;
+        border-radius: 50%;
+        user-select: none;
+        user-drag: none;
+        -webkit-user-drag: none;
+      }
+    }
+    .userIcon.coverMode{
+      position: relative;
+      img{
+        position: absolute;
+        top: -40px;
+      }
+    }
+    .userDataContainer{
+      width: calc(100% - 160px);
+      .userData{
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 6px;
+        .userDataMain{
+          h1{
+            font-weight: bold;
+          }
+          .userDataMeta{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+            .userDetail{
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              gap: 5px;
+              .userId{
+                font-size: 12px;
+              }
+              .userType{
+                font-size: 12px;
+              }
+              .userType.premium{
+                color: gold;
+              }
+            }
+            .userCounts{
+              display: flex;
+              flex-direction: row;
+              align-items: baseline;
+              gap: 7px;
+              .userCount{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 4px;
+                .userCountLabel{
+                  font-size: 12px;
+                }
+                .userCountNumber{
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+        }
+        .userDataButton{
+          margin-left: auto;
+          display: flex;
+          flex-direction: row;
+          gap: 5px;
+          height: fit-content;
+        }
+      }
+      .userDescription{
+        width: 650px;
+        max-width: 100%;
+        font-size: 80%;
+        line-break: anywhere;
+        .showMoreDiv{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: relative;
+          bottom: 40px;
+          .showMoreButton{
+            cursor: pointer;
+            text-decoration: underline;
+            user-select: none;
+            position: absolute;
+            bottom: -10px;
+          }
+          .textMask{
+            width: 100%;
+            background: linear-gradient(180deg, hsla(0,0%,100%,0) 0, #111);
+            height: 40px;
+            cursor: pointer;
+          }
+        }
+      }
+      .userDescription.expanded{
+        .showMoreDiv{
+          bottom: -5px;
+        }
+      }
+    }
+  }
+}
