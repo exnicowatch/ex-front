@@ -131,8 +131,10 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
         if(errorCode === "EXPIRED_TOKEN"){
           const _threadKey = (await nicoContextValue.extension.getVideoCommentThreadkey(_thread.id));
           if(_threadKey){
-            watchData.comment.nvComment.threadKey = _threadKey;
-            [_comment, errorCode] = await nicoContextValue.extension.getVideoComments(watchData.comment.nvComment);
+            const _wd = watchData;
+            _wd.comment.nvComment.threadKey = _threadKey;
+            setWatchData(_wd);
+            [_comment, errorCode] = await nicoContextValue.extension.getVideoComments(_wd.comment.nvComment);
           }
         }
         if(errorCode === null){
@@ -168,6 +170,7 @@ const VideoWatchPage = (props: VideoWatchPageProps) => {
             const _threadKey = (await nicoContextValue.extension.getVideoCommentThreadkey(_thread.id));
             if(_threadKey){
               _watchData.comment.nvComment.threadKey = _threadKey;
+              setWatchData(_watchData);
               [_comment, errorCode] = await nicoContextValue.extension.getVideoComments(_watchData.comment.nvComment);
             }
           }
